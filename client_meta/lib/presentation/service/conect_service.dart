@@ -4,12 +4,12 @@ import 'package:server_grpc/grpc_data/protos/model/test/test_conect.pb.dart';
 
 import '../../logger/logger_printer.dart';
 
-
 class ConectServices {
   static ResponseStream<TransactionNotification>? metaSrteam;
 
- static final logger = getLogger();
-  static ClientChannel initChane({String host = '192.168.100.30', int port = 8080}) {
+  static final logger = getLogger();
+  static ClientChannel initChane(
+      {String host = '192.168.100.30', int port = 8080}) {
     ClientChannel channel = ClientChannel(
       host,
       port: port,
@@ -45,7 +45,8 @@ class ConectServices {
     final channel = initChane();
     try {
       final metaApp = MetaAppClient(channel);
-      final response = await metaApp.getTransaction(GetTransactionRequest(id: id));
+      final response =
+          await metaApp.getTransaction(GetTransactionRequest(id: id));
       logger.d(response);
 
       await channel.shutdown();
@@ -72,7 +73,11 @@ class ConectServices {
 
     try {
       final metaApp = MetaAppClient(channel);
-      final response = await metaApp.testC(RequestClientInfo());
+      final response =
+          await metaApp.testC(RequestClientInfo()).catchError((val) {
+        logger.e('No hay conexcion');
+        return '';
+      });
       logger.d(response);
 
       await channel.shutdown();
@@ -90,15 +95,12 @@ class ConectServices {
     try {
       final metaApp = MetaAppClient(channel);
       metaSrteam = metaApp.startTransaction(StartTransactionRequest(id: id));
-
       metaSrteam!.asBroadcastStream().listen((event) async {
         logger.d(event);
 
         try {
-
-          await channel.shutdown();
-          metaSrteam!.cancel();
-
+          await channel.shutdown().catchError((error){});
+          metaSrteam!.cancel().catchError((val){});
         } catch (e) {
           logger.d(e);
         }
