@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package agnostiko_meta;
+
+enum TransactionType{
+    Sale = 0;
+    Refund = 1;
+    Void = 2;
+}
+
+enum TransactionStatus {
+  Pending = 0;
+  Failed = 1;
+  Cancelled = 2;
+  Denied = 3;
+  Approved = 4;
+}
+
+message Transaction{
+    string id = 1;
+    TransactionStatus status = 2;
+    TransactionType type = 3;
+    int32 amount = 4;
+    optional int32 secondaryAmount = 5;
+
+}

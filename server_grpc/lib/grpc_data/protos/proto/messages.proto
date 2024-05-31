@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package agnostiko_meta;
+
+import "transactions.proto";
+
+
+enum MetaErrorCode{
+    InternalError = 0;
+    WrongId = 1;
+    TransactionCompleted = 2;
+}
+
+message MetaError{
+    MetaErrorCode code = 1;
+    optional string errorMsg = 2; 
+}
+
+// El campo "origin" permite identificar la app que está mandando el request para asegurar el poder diferenciar los ids pertenecientes a cada app
+message RegisterTransactionRequest{
+    Transaction transaction = 1;
+    string origin = 2; 
+}
+
+message RegisterTransactionResponse{
+    bool success = 1;
+    optional MetaError error = 2;  
+}
+
+message StartTransactionRequest{
+    string id = 1;
+    string origin = 2;
+}
+
+message TransactionNotification{
+    optional Transaction transaction = 1;
+    optional MetaError error = 2;
+}
+
+message GetTransactionRequest{
+    string id = 1;
+    string origin = 2;
+}
+
+message GetTransactionResponse{
+    optional Transaction transaction = 1;
+    optional MetaError error = 2;
+}
+
+message GetStatusRequest{
+    string id = 1;
+    string origin = 2;
+}
+
+message GetStatusResponse{
+    optional TransactionStatus status = 1;
+    optional MetaError error = 2;
+}
+
+

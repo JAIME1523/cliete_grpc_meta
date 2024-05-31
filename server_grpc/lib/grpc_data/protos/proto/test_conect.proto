@@ -1,0 +1,14 @@
+
+
+syntax = "proto3";
+
+package agnostiko_meta;
+
+message TestConnectionReesponse{
+    bool status = 1;
+}
+
+
+message RequestClientInfo{
+    bool status = 1;
+}
