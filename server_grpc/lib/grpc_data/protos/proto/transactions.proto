@@ -4,8 +4,6 @@ package agnostiko_meta;
 
 enum TransactionType{
     Sale = 0;
-    Refund = 1;
-    Void = 2;
 }
 
 enum TransactionStatus {
@@ -21,6 +19,8 @@ message Transaction{
     TransactionStatus status = 2;
     TransactionType type = 3;
     int32 amount = 4;
-    optional int32 secondaryAmount = 5;
-
+    optional string referenceNumber = 5;
+    optional string arqc = 6;
+    optional string maskPan = 7;
+    optional string authorizationNumber = 8;
 }

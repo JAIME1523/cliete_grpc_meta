@@ -15,6 +15,18 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+              ElevatedButton(
+                onPressed: () async {
+                  await ConectServices.generatePairKey();
+                },
+                child: const Text('Gnerar llaves encr')),
+                ElevatedButton(
+                onPressed: () async {
+                final resp =   await ConectServices.matchmaking(context);
+                // ignore: use_build_context_synchronously
+                showMessage(context, resp? 'Se vincularon dispositivos y se guardo la macKey':'Algo fallo :(');
+                },
+                child: const Text('Emparejar')),
             ElevatedButton(
                 onPressed: () async {
                   await ConectServices.insertTransaction();
@@ -71,5 +83,10 @@ Future<String> showIdModal(BuildContext context) async {
       ),
     );});
     return idTr.text;
+  }
+
+  showMessage(BuildContext context, String message){
+  ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text( message)));
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const HomePage()), (route) => false);
   }
 }

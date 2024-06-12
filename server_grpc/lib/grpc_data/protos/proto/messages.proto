@@ -4,11 +4,13 @@ package agnostiko_meta;
 
 import "transactions.proto";
 
-
 enum MetaErrorCode{
     InternalError = 0;
     WrongId = 1;
     TransactionCompleted = 2;
+    AuthError = 3; 
+    InvalidCounter = 4; 
+    PublicKeyError = 5;
 }
 
 message MetaError{
@@ -16,45 +18,69 @@ message MetaError{
     optional string errorMsg = 2; 
 }
 
+message RegisterClientRequest{
+    string randomCode = 1;
+    string publicKey = 2;
+}
+
+message RegisterClientResponse{
+    string macLabel = 1;
+    bytes macKey = 2; 
+}
+
+message AuthData{
+    int32 counter = 1;
+    string macLabel = 2;
+    bytes mac = 3; 
+}
+
 // El campo "origin" permite identificar la app que está mandando el request para asegurar el poder diferenciar los ids pertenecientes a cada app
 message RegisterTransactionRequest{
     Transaction transaction = 1;
     string origin = 2; 
+    AuthData authData = 3;
 }
 
 message RegisterTransactionResponse{
     bool success = 1;
     optional MetaError error = 2;  
+    AuthData authData = 3;
 }
 
 message StartTransactionRequest{
     string id = 1;
     string origin = 2;
+    AuthData authData = 3;
 }
 
 message TransactionNotification{
     optional Transaction transaction = 1;
     optional MetaError error = 2;
+    AuthData authData = 3;
 }
 
 message GetTransactionRequest{
     string id = 1;
     string origin = 2;
+    AuthData authData = 3;
 }
 
 message GetTransactionResponse{
     optional Transaction transaction = 1;
     optional MetaError error = 2;
+    AuthData authData = 3;
 }
 
 message GetStatusRequest{
     string id = 1;
     string origin = 2;
+    AuthData authData = 3;
 }
 
 message GetStatusResponse{
     optional TransactionStatus status = 1;
     optional MetaError error = 2;
+    AuthData authData = 3;
 }
 
 

@@ -17,11 +17,17 @@ class MetaErrorCode extends $pb.ProtobufEnum {
   static const MetaErrorCode InternalError = MetaErrorCode._(0, _omitEnumNames ? '' : 'InternalError');
   static const MetaErrorCode WrongId = MetaErrorCode._(1, _omitEnumNames ? '' : 'WrongId');
   static const MetaErrorCode TransactionCompleted = MetaErrorCode._(2, _omitEnumNames ? '' : 'TransactionCompleted');
+  static const MetaErrorCode AuthError = MetaErrorCode._(3, _omitEnumNames ? '' : 'AuthError');
+  static const MetaErrorCode InvalidCounter = MetaErrorCode._(4, _omitEnumNames ? '' : 'InvalidCounter');
+  static const MetaErrorCode PublicKeyError = MetaErrorCode._(5, _omitEnumNames ? '' : 'PublicKeyError');
 
   static const $core.List<MetaErrorCode> values = <MetaErrorCode> [
     InternalError,
     WrongId,
     TransactionCompleted,
+    AuthError,
+    InvalidCounter,
+    PublicKeyError,
   ];
 
   static final $core.Map<$core.int, MetaErrorCode> _byValue = $pb.ProtobufEnum.initByValue(values);

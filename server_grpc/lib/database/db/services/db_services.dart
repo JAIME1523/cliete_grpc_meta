@@ -36,20 +36,25 @@ class DbServices {
             '''
         CREATE TABLE  IF NOT EXISTS Transactions(
           transactionId INTEGER PRIMARY KEY AUTOINCREMENT,
-          transactionStatus TEXT,
-          transactionType TEXT,
+          idProto TEXT,
+          status TEXT,
+          type TEXT,
+          referenceNumber TEXT,
+          arqc TEXT,
+          maskPan TEXT,
           amount TEXT,
-          secondaryAmount TEXT)
+          authorizationNumber TEXT)
         ''');
         await db.execute(
             '''
         CREATE TABLE  IF NOT EXISTS  Origintransaction(
             origintransactionId INTEGER PRIMARY KEY AUTOINCREMENT,
             origin TEXT,
-            transactionId INTEGER,
-            FOREIGN KEY(transactionId) REFERENCES Transactions(transactionId) ON DELETE CASCADE
-            )
-          ''');
+            idProto TEXT)
+          '''
+          //  FOREIGN KEY(idProto) REFERENCES Transactions(idProto) ON DELETE CASCADE
+          
+);
       },
     );
   }
@@ -63,30 +68,11 @@ class DbServices {
     }
   }
 
-  static Future<List<T>> getBy<T>(NameTable table,
-      {SearchBy type = SearchBy.transactionId, required String value}) async {
-    final db = await dataBase;
-    final List<T> list = [];
-    try {
-      final resp = await db
-          .query(table.value, where: '${type.value} =? ', whereArgs: [value]);
-      for (var element in resp) {
-        list.add(DataDbM.fromMap(element) as T);
-      }
-      return list;
-    } catch (e) {
-      return list;
-    }
-  }
 
-  static Future<List<T>> getAll<T>(NameTable table) async {
+  static Future<List<Map<String, dynamic>>> getAll(NameTable table) async {
     final db = await dataBase;
-    final List<T> list = [];
     final resp = await db.query(table.value);
-    for (var element in resp) {
-      list.add(DataDbM.fromMap(element) as T);
-    }
-    return list;
+    return resp;
   }
 
   static Future<int> delete(NameTable table, int id) async {
@@ -94,32 +80,57 @@ class DbServices {
     return await db.delete(table.value);
   }
 
-  static Future<int> update(NameTable table,
-      {required DataDbM data,
-      SearchBy type = SearchBy.transactionId,
-      required String value}) async {
+  static Future<int> update(NameTable table, {required DataDbM data, SearchBy type = SearchBy.idProto, required String value}) async {
     final db = await dataBase;
-   try {
+    try {
       return await db.update(table.value, data.toMap(),
-        where: '${type.value} =? ', whereArgs: [value]);
-   } catch (e) {
-     return 0;
-   }
+          where: '${type.value} =? ', whereArgs: [value]);
+    } catch (e) {
+      return 0;
+    }
   }
 
-  static Future<List<T>> customQuery<T>(String query) async {
+  static Future<List<Map<String, dynamic>>> customQuery(String query) async {
     final db = await dataBase;
-    final List<T> list = [];
-    final resp = await db.rawQuery(query);
-    for (var element in resp) {
-      list.add(DataDbM.fromMap(element) as T);
-    }
-    return list;
+   try {
+     return await db.rawQuery(query);
+   } catch (e) {
+     return [];
+   }
+ 
   }
+
+  static Future<int> updateStatus(NameTable table,{required Map<String, dynamic> data,required String idTransaccion}) async {
+    final db = await dataBase;
+    try {
+      return await db.update(table.value, data, where: '${SearchBy.idProto.value} =? ', whereArgs: [idTransaccion]);
+    } catch (e) {
+      return 0;
+    }
+  }
+  
+    static Future<List<Map<String, dynamic>>> getByOriginId({required String origin, required String idTransaccion}) async {
+    final db = await dataBase;
+    try {
+       return await db.rawQuery(
+        '''SELECT * FROM Transactions t 
+          LEFT join Origintransaction O
+          on O.origin  == '$origin'
+          where t.idProto == '$idTransaccion'
+          ''',
+        );
+
+    } catch (e) {
+      return [];
+    }
+  }
+  
 }
 
 enum SearchBy {
-  transactionId("transactionId"),
+//  transactionId("transactionId"),
+  idProto("idProto"),
+
   origin("origin"),
   origintransactionId("origintransactionId"),
   transactionStatus("transactionStatus");

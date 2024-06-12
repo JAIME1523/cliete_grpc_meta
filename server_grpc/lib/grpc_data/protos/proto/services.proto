@@ -6,6 +6,7 @@ import "messages.proto";
 import "test_conect.proto";
 
 service MetaApp {
+  rpc RegisterClient (RegisterClientRequest) returns (RegisterClientResponse) {}
   rpc RegisterTransaction (RegisterTransactionRequest) returns (RegisterTransactionResponse) {}
   rpc StartTransaction (StartTransactionRequest) returns (stream TransactionNotification) {}
   rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}

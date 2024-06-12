@@ -1,8 +1,13 @@
+import 'dart:math';
+
+import 'package:client_meta/presentation/service/encrypt_grcp/encrrypt_grcp_service.dart';
+import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 import 'package:server_grpc/grpc_data/grpc_data.dart';
 import 'package:server_grpc/grpc_data/protos/model/test/test_conect.pb.dart';
 
 import '../../logger/logger_printer.dart';
+import 'encrypt/rsa_service.dart';
 
 class ConectServices {
   static ResponseStream<TransactionNotification>? metaSrteam;
@@ -30,8 +35,8 @@ class ConectServices {
           RegisterTransactionRequest(
               origin: 'Desde web',
               transaction: Transaction(
+                  id: '1',
                   amount: 50000,
-                  secondaryAmount: 20,
                   status: TransactionStatus.Pending,
                   type: TransactionType.Sale)));
       logger.d(response);
@@ -45,8 +50,10 @@ class ConectServices {
     final channel = initChane();
     try {
       final metaApp = MetaAppClient(channel);
-      final response =
-          await metaApp.getTransaction(GetTransactionRequest(id: id));
+      final response = await metaApp.getTransaction(GetTransactionRequest(
+        id: id,
+        origin: 'Desde web',
+      ));
       logger.d(response);
 
       await channel.shutdown();
@@ -99,8 +106,8 @@ class ConectServices {
         logger.d(event);
 
         try {
-          await channel.shutdown().catchError((error){});
-          metaSrteam!.cancel().catchError((val){});
+          await channel.shutdown().catchError((error) {});
+          metaSrteam!.cancel().catchError((val) {});
         } catch (e) {
           logger.d(e);
         }
@@ -109,5 +116,61 @@ class ConectServices {
       await channel.shutdown();
       await metaSrteam!.cancel();
     }
+  }
+
+  static Future<bool> matchmaking(BuildContext context) async {
+    final channel = initChane();
+
+    try {
+      int randomNumber = Random().nextInt(999999) + 100000;
+      _showModalMat(context, randomNumber.toString());
+      final publicKey = await EncryptGrcpService.generatePem();
+      final metaApp = MetaAppClient(channel);
+      final response = await metaApp.registerClient(RegisterClientRequest(
+          publicKey: publicKey, randomCode: randomNumber.toString()));
+      logger.w(response);
+      if (response.macKey.isNotEmpty) {
+        await EncryptGrcpService.decripMacSave(response.macKey);
+        await EncryptGrcpService.getMac();
+        return true;
+      }
+
+      await channel.shutdown();
+      return false;
+    } catch (e) {
+      logger.e(e);
+
+      await channel.shutdown();
+      return false;
+    }
+  }
+
+  static generatePairKey() async {
+    await RsaService.generate();
+  }
+
+  static _showModalMat(BuildContext context, String randomNumber) {
+    final styleText = Theme.of(context).textTheme;
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: Text(
+          randomNumber.toString(),
+          style: styleText.titleLarge,
+          textAlign: TextAlign.center,
+        ),
+        title: Center(
+          child: Text(
+            'Ingrese este numero en su terminal',
+            style: styleText.titleMedium,
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Ok'))
+        ],
+      ),
+    );
   }
 }

@@ -13,16 +13,18 @@ class DbImplement extends DbTableRepo {
   Future<int> insert(NameTable table, DataDbM dataModel) async => await DbServices.insert(table, dataModel);
 
   @override
-  Future<int> update(NameTable table,{ required DataDbM data, SearchBy type = SearchBy.transactionId, required String value}) async => await DbServices.update(table,data: data, type: type, value: value);
+  Future<int> update(NameTable table,{ required DataDbM data, SearchBy type = SearchBy.idProto, required String value}) async => await DbServices.update(table,data: data, type: type, value: value);
 
   @override
-  Future<List<T>> getAll<T>(NameTable table) async => await DbServices.getAll<T>(table);
+ Future<List<Map<String,dynamic>>> getAll(NameTable table) async => await DbServices.getAll(table);
   
   @override
-  Future<List<T>> customQuery<T>(String query) async => await DbServices.customQuery<T>(query);
-  
+ Future<List<Map<String,dynamic>>> customQuery(String query) async => await DbServices.customQuery(query);
+ 
   @override
-  Future<List<T>> getBy<T>(NameTable table, {SearchBy type = SearchBy.transactionId, required String value}) async => await DbServices.getBy(table,  type: type,value: value);
+  Future<List<Map<String,dynamic>>> getByIdOrigin({required String origin, required String idTransaccion}) async => await DbServices.getByOriginId( origin: origin, idTransaccion: idTransaccion);
+  
 
-  
+  Future<int> updateStatus(NameTable table,{ required Map<String,dynamic> data, required String idTransaction}) async => await DbServices.updateStatus(table, data: data, idTransaccion: idTransaction);
+
 }

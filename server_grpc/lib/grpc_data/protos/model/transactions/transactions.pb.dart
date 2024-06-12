@@ -23,7 +23,10 @@ class Transaction extends $pb.GeneratedMessage {
     TransactionStatus? status,
     TransactionType? type,
     $core.int? amount,
-    $core.int? secondaryAmount,
+    $core.String? referenceNumber,
+    $core.String? arqc,
+    $core.String? maskPan,
+    $core.String? authorizationNumber,
   }) {
     final $result = create();
     if (id != null) {
@@ -38,8 +41,17 @@ class Transaction extends $pb.GeneratedMessage {
     if (amount != null) {
       $result.amount = amount;
     }
-    if (secondaryAmount != null) {
-      $result.secondaryAmount = secondaryAmount;
+    if (referenceNumber != null) {
+      $result.referenceNumber = referenceNumber;
+    }
+    if (arqc != null) {
+      $result.arqc = arqc;
+    }
+    if (maskPan != null) {
+      $result.maskPan = maskPan;
+    }
+    if (authorizationNumber != null) {
+      $result.authorizationNumber = authorizationNumber;
     }
     return $result;
   }
@@ -52,7 +64,10 @@ class Transaction extends $pb.GeneratedMessage {
     ..e<TransactionStatus>(2, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: TransactionStatus.Pending, valueOf: TransactionStatus.valueOf, enumValues: TransactionStatus.values)
     ..e<TransactionType>(3, _omitFieldNames ? '' : 'type', $pb.PbFieldType.OE, defaultOrMaker: TransactionType.Sale, valueOf: TransactionType.valueOf, enumValues: TransactionType.values)
     ..a<$core.int>(4, _omitFieldNames ? '' : 'amount', $pb.PbFieldType.O3)
-    ..a<$core.int>(5, _omitFieldNames ? '' : 'secondaryAmount', $pb.PbFieldType.O3, protoName: 'secondaryAmount')
+    ..aOS(5, _omitFieldNames ? '' : 'referenceNumber', protoName: 'referenceNumber')
+    ..aOS(6, _omitFieldNames ? '' : 'arqc')
+    ..aOS(7, _omitFieldNames ? '' : 'maskPan', protoName: 'maskPan')
+    ..aOS(8, _omitFieldNames ? '' : 'authorizationNumber', protoName: 'authorizationNumber')
     ..hasRequiredFields = false
   ;
 
@@ -114,13 +129,40 @@ class Transaction extends $pb.GeneratedMessage {
   void clearAmount() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.int get secondaryAmount => $_getIZ(4);
+  $core.String get referenceNumber => $_getSZ(4);
   @$pb.TagNumber(5)
-  set secondaryAmount($core.int v) { $_setSignedInt32(4, v); }
+  set referenceNumber($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasSecondaryAmount() => $_has(4);
+  $core.bool hasReferenceNumber() => $_has(4);
   @$pb.TagNumber(5)
-  void clearSecondaryAmount() => clearField(5);
+  void clearReferenceNumber() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get arqc => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set arqc($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasArqc() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearArqc() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get maskPan => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set maskPan($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasMaskPan() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearMaskPan() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get authorizationNumber => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set authorizationNumber($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasAuthorizationNumber() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearAuthorizationNumber() => clearField(8);
 }
 
 

@@ -16,11 +16,16 @@ import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import '../message/messages.pb.dart' as $0;
-import  '../test/test_conect.pb.dart' as $1;
+import '../test/test_conect.pb.dart' as $1;
+
 export 'services.pb.dart';
 
 @$pb.GrpcServiceName('agnostiko_meta.MetaApp')
 class MetaAppClient extends $grpc.Client {
+  static final _$registerClient = $grpc.ClientMethod<$0.RegisterClientRequest, $0.RegisterClientResponse>(
+      '/agnostiko_meta.MetaApp/RegisterClient',
+      ($0.RegisterClientRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.RegisterClientResponse.fromBuffer(value));
   static final _$registerTransaction = $grpc.ClientMethod<$0.RegisterTransactionRequest, $0.RegisterTransactionResponse>(
       '/agnostiko_meta.MetaApp/RegisterTransaction',
       ($0.RegisterTransactionRequest value) => value.writeToBuffer(),
@@ -48,6 +53,10 @@ class MetaAppClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
+  $grpc.ResponseFuture<$0.RegisterClientResponse> registerClient($0.RegisterClientRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$registerClient, request, options: options);
+  }
+
   $grpc.ResponseFuture<$0.RegisterTransactionResponse> registerTransaction($0.RegisterTransactionRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$registerTransaction, request, options: options);
   }
@@ -74,6 +83,13 @@ abstract class MetaAppServiceBase extends $grpc.Service {
   $core.String get $name => 'agnostiko_meta.MetaApp';
 
   MetaAppServiceBase() {
+    $addMethod($grpc.ServiceMethod<$0.RegisterClientRequest, $0.RegisterClientResponse>(
+        'RegisterClient',
+        registerClient_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.RegisterClientRequest.fromBuffer(value),
+        ($0.RegisterClientResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.RegisterTransactionRequest, $0.RegisterTransactionResponse>(
         'RegisterTransaction',
         registerTransaction_Pre,
@@ -111,6 +127,10 @@ abstract class MetaAppServiceBase extends $grpc.Service {
         ($1.TestConnectionReesponse value) => value.writeToBuffer()));
   }
 
+  $async.Future<$0.RegisterClientResponse> registerClient_Pre($grpc.ServiceCall call, $async.Future<$0.RegisterClientRequest> request) async {
+    return registerClient(call, await request);
+  }
+
   $async.Future<$0.RegisterTransactionResponse> registerTransaction_Pre($grpc.ServiceCall call, $async.Future<$0.RegisterTransactionRequest> request) async {
     return registerTransaction(call, await request);
   }
@@ -131,6 +151,7 @@ abstract class MetaAppServiceBase extends $grpc.Service {
     return testC(call, await request);
   }
 
+  $async.Future<$0.RegisterClientResponse> registerClient($grpc.ServiceCall call, $0.RegisterClientRequest request);
   $async.Future<$0.RegisterTransactionResponse> registerTransaction($grpc.ServiceCall call, $0.RegisterTransactionRequest request);
   $async.Stream<$0.TransactionNotification> startTransaction($grpc.ServiceCall call, $0.StartTransactionRequest request);
   $async.Future<$0.GetStatusResponse> getStatus($grpc.ServiceCall call, $0.GetStatusRequest request);

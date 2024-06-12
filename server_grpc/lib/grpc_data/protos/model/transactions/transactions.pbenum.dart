@@ -15,13 +15,9 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class TransactionType extends $pb.ProtobufEnum {
   static const TransactionType Sale = TransactionType._(0, _omitEnumNames ? '' : 'Sale');
-  static const TransactionType Refund = TransactionType._(1, _omitEnumNames ? '' : 'Refund');
-  static const TransactionType Void = TransactionType._(2, _omitEnumNames ? '' : 'Void');
 
   static const $core.List<TransactionType> values = <TransactionType> [
     Sale,
-    Refund,
-    Void,
   ];
 
   static final $core.Map<$core.int, TransactionType> _byValue = $pb.ProtobufEnum.initByValue(values);

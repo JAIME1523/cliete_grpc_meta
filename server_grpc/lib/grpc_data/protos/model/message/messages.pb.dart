@@ -83,11 +83,218 @@ class MetaError extends $pb.GeneratedMessage {
   void clearErrorMsg() => clearField(2);
 }
 
+class RegisterClientRequest extends $pb.GeneratedMessage {
+  factory RegisterClientRequest({
+    $core.String? randomCode,
+    $core.String? publicKey,
+  }) {
+    final $result = create();
+    if (randomCode != null) {
+      $result.randomCode = randomCode;
+    }
+    if (publicKey != null) {
+      $result.publicKey = publicKey;
+    }
+    return $result;
+  }
+  RegisterClientRequest._() : super();
+  factory RegisterClientRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RegisterClientRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterClientRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'randomCode', protoName: 'randomCode')
+    ..aOS(2, _omitFieldNames ? '' : 'publicKey', protoName: 'publicKey')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RegisterClientRequest clone() => RegisterClientRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RegisterClientRequest copyWith(void Function(RegisterClientRequest) updates) => super.copyWith((message) => updates(message as RegisterClientRequest)) as RegisterClientRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static RegisterClientRequest create() => RegisterClientRequest._();
+  RegisterClientRequest createEmptyInstance() => create();
+  static $pb.PbList<RegisterClientRequest> createRepeated() => $pb.PbList<RegisterClientRequest>();
+  @$core.pragma('dart2js:noInline')
+  static RegisterClientRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterClientRequest>(create);
+  static RegisterClientRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get randomCode => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set randomCode($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasRandomCode() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearRandomCode() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get publicKey => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set publicKey($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPublicKey() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPublicKey() => clearField(2);
+}
+
+class RegisterClientResponse extends $pb.GeneratedMessage {
+  factory RegisterClientResponse({
+    $core.String? macLabel,
+    $core.List<$core.int>? macKey,
+  }) {
+    final $result = create();
+    if (macLabel != null) {
+      $result.macLabel = macLabel;
+    }
+    if (macKey != null) {
+      $result.macKey = macKey;
+    }
+    return $result;
+  }
+  RegisterClientResponse._() : super();
+  factory RegisterClientResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory RegisterClientResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterClientResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'macLabel', protoName: 'macLabel')
+    ..a<$core.List<$core.int>>(2, _omitFieldNames ? '' : 'macKey', $pb.PbFieldType.OY, protoName: 'macKey')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  RegisterClientResponse clone() => RegisterClientResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  RegisterClientResponse copyWith(void Function(RegisterClientResponse) updates) => super.copyWith((message) => updates(message as RegisterClientResponse)) as RegisterClientResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static RegisterClientResponse create() => RegisterClientResponse._();
+  RegisterClientResponse createEmptyInstance() => create();
+  static $pb.PbList<RegisterClientResponse> createRepeated() => $pb.PbList<RegisterClientResponse>();
+  @$core.pragma('dart2js:noInline')
+  static RegisterClientResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RegisterClientResponse>(create);
+  static RegisterClientResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get macLabel => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set macLabel($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMacLabel() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMacLabel() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.List<$core.int> get macKey => $_getN(1);
+  @$pb.TagNumber(2)
+  set macKey($core.List<$core.int> v) { $_setBytes(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasMacKey() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearMacKey() => clearField(2);
+}
+
+class AuthData extends $pb.GeneratedMessage {
+  factory AuthData({
+    $core.int? counter,
+    $core.String? macLabel,
+    $core.List<$core.int>? mac,
+  }) {
+    final $result = create();
+    if (counter != null) {
+      $result.counter = counter;
+    }
+    if (macLabel != null) {
+      $result.macLabel = macLabel;
+    }
+    if (mac != null) {
+      $result.mac = mac;
+    }
+    return $result;
+  }
+  AuthData._() : super();
+  factory AuthData.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AuthData.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AuthData', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'counter', $pb.PbFieldType.O3)
+    ..aOS(2, _omitFieldNames ? '' : 'macLabel', protoName: 'macLabel')
+    ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'mac', $pb.PbFieldType.OY)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  AuthData clone() => AuthData()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  AuthData copyWith(void Function(AuthData) updates) => super.copyWith((message) => updates(message as AuthData)) as AuthData;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static AuthData create() => AuthData._();
+  AuthData createEmptyInstance() => create();
+  static $pb.PbList<AuthData> createRepeated() => $pb.PbList<AuthData>();
+  @$core.pragma('dart2js:noInline')
+  static AuthData getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<AuthData>(create);
+  static AuthData? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get counter => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set counter($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasCounter() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearCounter() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get macLabel => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set macLabel($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasMacLabel() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearMacLabel() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.List<$core.int> get mac => $_getN(2);
+  @$pb.TagNumber(3)
+  set mac($core.List<$core.int> v) { $_setBytes(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasMac() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearMac() => clearField(3);
+}
+
 /// El campo "origin" permite identificar la app que está mandando el request para asegurar el poder diferenciar los ids pertenecientes a cada app
 class RegisterTransactionRequest extends $pb.GeneratedMessage {
   factory RegisterTransactionRequest({
     $0.Transaction? transaction,
     $core.String? origin,
+    AuthData? authData,
   }) {
     final $result = create();
     if (transaction != null) {
@@ -95,6 +302,9 @@ class RegisterTransactionRequest extends $pb.GeneratedMessage {
     }
     if (origin != null) {
       $result.origin = origin;
+    }
+    if (authData != null) {
+      $result.authData = authData;
     }
     return $result;
   }
@@ -105,6 +315,7 @@ class RegisterTransactionRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterTransactionRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..aOM<$0.Transaction>(1, _omitFieldNames ? '' : 'transaction', subBuilder: $0.Transaction.create)
     ..aOS(2, _omitFieldNames ? '' : 'origin')
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -148,12 +359,24 @@ class RegisterTransactionRequest extends $pb.GeneratedMessage {
   $core.bool hasOrigin() => $_has(1);
   @$pb.TagNumber(2)
   void clearOrigin() => clearField(2);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 class RegisterTransactionResponse extends $pb.GeneratedMessage {
   factory RegisterTransactionResponse({
     $core.bool? success,
     MetaError? error,
+    AuthData? authData,
   }) {
     final $result = create();
     if (success != null) {
@@ -161,6 +384,9 @@ class RegisterTransactionResponse extends $pb.GeneratedMessage {
     }
     if (error != null) {
       $result.error = error;
+    }
+    if (authData != null) {
+      $result.authData = authData;
     }
     return $result;
   }
@@ -171,6 +397,7 @@ class RegisterTransactionResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterTransactionResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'success')
     ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -214,12 +441,24 @@ class RegisterTransactionResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   MetaError ensureError() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 class StartTransactionRequest extends $pb.GeneratedMessage {
   factory StartTransactionRequest({
     $core.String? id,
     $core.String? origin,
+    AuthData? authData,
   }) {
     final $result = create();
     if (id != null) {
@@ -227,6 +466,9 @@ class StartTransactionRequest extends $pb.GeneratedMessage {
     }
     if (origin != null) {
       $result.origin = origin;
+    }
+    if (authData != null) {
+      $result.authData = authData;
     }
     return $result;
   }
@@ -237,6 +479,7 @@ class StartTransactionRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'StartTransactionRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'origin')
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -278,12 +521,24 @@ class StartTransactionRequest extends $pb.GeneratedMessage {
   $core.bool hasOrigin() => $_has(1);
   @$pb.TagNumber(2)
   void clearOrigin() => clearField(2);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 class TransactionNotification extends $pb.GeneratedMessage {
   factory TransactionNotification({
     $0.Transaction? transaction,
     MetaError? error,
+    AuthData? authData,
   }) {
     final $result = create();
     if (transaction != null) {
@@ -291,6 +546,9 @@ class TransactionNotification extends $pb.GeneratedMessage {
     }
     if (error != null) {
       $result.error = error;
+    }
+    if (authData != null) {
+      $result.authData = authData;
     }
     return $result;
   }
@@ -301,6 +559,7 @@ class TransactionNotification extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TransactionNotification', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..aOM<$0.Transaction>(1, _omitFieldNames ? '' : 'transaction', subBuilder: $0.Transaction.create)
     ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -346,12 +605,24 @@ class TransactionNotification extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   MetaError ensureError() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 class GetTransactionRequest extends $pb.GeneratedMessage {
   factory GetTransactionRequest({
     $core.String? id,
     $core.String? origin,
+    AuthData? authData,
   }) {
     final $result = create();
     if (id != null) {
@@ -359,6 +630,9 @@ class GetTransactionRequest extends $pb.GeneratedMessage {
     }
     if (origin != null) {
       $result.origin = origin;
+    }
+    if (authData != null) {
+      $result.authData = authData;
     }
     return $result;
   }
@@ -369,6 +643,7 @@ class GetTransactionRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'origin')
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -410,12 +685,24 @@ class GetTransactionRequest extends $pb.GeneratedMessage {
   $core.bool hasOrigin() => $_has(1);
   @$pb.TagNumber(2)
   void clearOrigin() => clearField(2);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 class GetTransactionResponse extends $pb.GeneratedMessage {
   factory GetTransactionResponse({
     $0.Transaction? transaction,
     MetaError? error,
+    AuthData? authData,
   }) {
     final $result = create();
     if (transaction != null) {
@@ -423,6 +710,9 @@ class GetTransactionResponse extends $pb.GeneratedMessage {
     }
     if (error != null) {
       $result.error = error;
+    }
+    if (authData != null) {
+      $result.authData = authData;
     }
     return $result;
   }
@@ -433,6 +723,7 @@ class GetTransactionResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..aOM<$0.Transaction>(1, _omitFieldNames ? '' : 'transaction', subBuilder: $0.Transaction.create)
     ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -478,12 +769,24 @@ class GetTransactionResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   MetaError ensureError() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 class GetStatusRequest extends $pb.GeneratedMessage {
   factory GetStatusRequest({
     $core.String? id,
     $core.String? origin,
+    AuthData? authData,
   }) {
     final $result = create();
     if (id != null) {
@@ -491,6 +794,9 @@ class GetStatusRequest extends $pb.GeneratedMessage {
     }
     if (origin != null) {
       $result.origin = origin;
+    }
+    if (authData != null) {
+      $result.authData = authData;
     }
     return $result;
   }
@@ -501,6 +807,7 @@ class GetStatusRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStatusRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'origin')
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -542,12 +849,24 @@ class GetStatusRequest extends $pb.GeneratedMessage {
   $core.bool hasOrigin() => $_has(1);
   @$pb.TagNumber(2)
   void clearOrigin() => clearField(2);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 class GetStatusResponse extends $pb.GeneratedMessage {
   factory GetStatusResponse({
     $0.TransactionStatus? status,
     MetaError? error,
+    AuthData? authData,
   }) {
     final $result = create();
     if (status != null) {
@@ -555,6 +874,9 @@ class GetStatusResponse extends $pb.GeneratedMessage {
     }
     if (error != null) {
       $result.error = error;
+    }
+    if (authData != null) {
+      $result.authData = authData;
     }
     return $result;
   }
@@ -565,6 +887,7 @@ class GetStatusResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStatusResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..e<$0.TransactionStatus>(1, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: $0.TransactionStatus.Pending, valueOf: $0.TransactionStatus.valueOf, enumValues: $0.TransactionStatus.values)
     ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -608,6 +931,17 @@ class GetStatusResponse extends $pb.GeneratedMessage {
   void clearError() => clearField(2);
   @$pb.TagNumber(2)
   MetaError ensureError() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 
