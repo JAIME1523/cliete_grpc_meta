@@ -3,7 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:client_meta/logger/logger_printer.dart';
-import 'package:client_meta/presentation/service/secure/secure_stor.dart';
+import 'package:client_meta/presentation/data/service/secure/secure_stor.dart';
 import 'package:encrypt/encrypt.dart';
 
 import 'package:basic_utils/basic_utils.dart';

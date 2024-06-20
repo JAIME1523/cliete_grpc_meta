@@ -4,83 +4,102 @@ import 'package:server_grpc/database/models/data_model.dart';
 import 'package:server_grpc/grpc_data/grpc_data.dart';
 
 class TransactionGRpcModel extends DataDbM {
-  final dynamic transactionId;
-    final dynamic idProto;
- 
+   
+  final String? idProtoTransaction;
+
   final TransactionStatus? status;
   TransactionType? type;
-  final String amount;
-  final String? referenceNumber;
-  final String? arqc;
-  final String? maskPan;
-  final String? authorizationNumber;
+  final int amount;
+  String? referenceNumber;
+  String? arqc;
+  String? maskPan;
+  String? authorizationNumber;
 
-
-  TransactionGRpcModel( {
-    this.transactionId,
-    this.status,
-    this.type,
-    this.idProto,
-    required this.amount,
-    this.referenceNumber, this.arqc, this.maskPan,
-    this.authorizationNumber
-  });
+  TransactionGRpcModel(
+      {
+      this.status,
+      this.type,
+      this.idProtoTransaction,
+      required this.amount,
+      this.referenceNumber,
+      this.arqc,
+      this.maskPan,
+      this.authorizationNumber});
 
   TransactionGRpcModel copyWith({
-    dynamic transactionId,
     TransactionStatus? status,
     TransactionType? type,
-    String? amount,
+    int? amount,
     String? referenceNumber,
     String? arqc,
-    dynamic idProto,
+    String? idProtoTransaction,
     String? maskPan,
     String? authorizationNumber,
   }) =>
       TransactionGRpcModel(
-        transactionId: transactionId ?? transactionId,
-        status: status ?? this.status,
-        type: type ?? this.type,
-        amount: amount ?? this.amount,
-        referenceNumber: referenceNumber ?? this.referenceNumber,
-        arqc: arqc ?? this.arqc,
-        maskPan: maskPan?? maskPan,
-        idProto: idProto ?? this.idProto,
-        authorizationNumber: authorizationNumber ?? this.authorizationNumber
-      );
+          status              : status ?? this.status,
+          type                : type ?? this.type,
+          amount              : amount ?? this.amount,
+          referenceNumber     : referenceNumber ?? this.referenceNumber,
+          arqc                : arqc ?? this.arqc,
+          maskPan             : maskPan ?? maskPan,
+          idProtoTransaction             : idProtoTransaction ?? this.idProtoTransaction,
+          authorizationNumber : authorizationNumber ?? this.authorizationNumber);
 
   factory TransactionGRpcModel.fromJson(String str) =>
       TransactionGRpcModel.fromMap(json.decode(str));
 
   @override
   String toJson() => json.encode(toMap());
+  String toJsonGrpc() => json.encode(toMapGrpc());
 
   factory TransactionGRpcModel.fromMap(Map<String, dynamic> json) =>
       TransactionGRpcModel(
-        transactionId: json["transactionId"],
-        status: statusValues.map[json["status"]]!,
-        type: typeValues.map[json["type"]],
-        amount: json["amount"],
-        referenceNumber: json["referenceNumber"],
-        arqc: json["arqc"],
-        maskPan: json["maskPan"],
-        idProto: json["idProto"],
-        authorizationNumber: json["authorizationNumber"],
-
-        
+        // transactionId: json["transactionId"],
+        status              : statusValues.map[json["status"]]!,
+        type                : typeValues.map[json["type"]],
+        amount              : int.tryParse(json["amount"]) ?? 0,
+        referenceNumber     : json["referenceNumber"],
+        arqc                : json["arqc"],
+        maskPan             : json["maskPan"],
+        idProtoTransaction             : json["idProto"],
+        authorizationNumber : json["authorizationNumber"],
       );
-
+  factory TransactionGRpcModel.fromMapByGrpc(Map<String, dynamic> json) {
+    return TransactionGRpcModel(
+      // transactionId: json["transactionId"],
+      //idProto             : json["1"],
+      status              : TransactionStatus.valueOf(json["1"]),
+      type                : TransactionType.valueOf(json["2"]),
+      amount              : json["3"],
+      referenceNumber     : json["4"],
+      arqc                : json["5"],
+      maskPan             : json["6"],
+      authorizationNumber : json["7"],
+    );
+  }
   @override
   Map<String, dynamic> toMap() => {
-        "transactionId": transactionId,
-        "idProto": idProto,
-        "status": statusValues.reverse[status],
-        "type": typeValues.reverse[type],
-        "amount": amount,
-        "referenceNumber": referenceNumber,
-        "arqc": arqc,
-        "maskPan": maskPan,
-        "authorizationNumber":authorizationNumber
+        //"transactionId": transactionId,
+        "idProto"             : idProtoTransaction,
+        "status"              : statusValues.reverse[status],
+        "type"                : typeValues.reverse[type],
+        "amount"              : amount,
+        "referenceNumber"     : referenceNumber,
+        "arqc"                : arqc,
+        "maskPan"             : maskPan,
+        "authorizationNumber" : authorizationNumber
+      };
+  Map<String, dynamic> toMapGrpc() => {
+        //"transactionId": transactionId,
+        //"1": idProto,
+        "1": status!.value,
+        "2": type!.value,
+        "3": amount,
+        if (referenceNumber != null)       "4": referenceNumber,
+        if (arqc != null)                  "5": arqc,
+        if (maskPan != null)               "6": maskPan,
+        if (authorizationNumber != null)   "7": authorizationNumber
       };
 }
 
@@ -89,11 +108,11 @@ final typeValues = EnumValues({
 });
 
 final statusValues = EnumValues({
-  "Pending": TransactionStatus.Pending,
-  "Failed": TransactionStatus.Failed,
-  "Cancelled": TransactionStatus.Cancelled,
-  "Denied": TransactionStatus.Denied,
-  "Approved": TransactionStatus.Approved,
+  "Pending"   : TransactionStatus.Pending,
+  "Failed"    : TransactionStatus.Failed,
+  "Cancelled" : TransactionStatus.Cancelled,
+  "Denied"    : TransactionStatus.Denied,
+  "Approved"  : TransactionStatus.Approved,
 });
 
 class EnumValues<T> {

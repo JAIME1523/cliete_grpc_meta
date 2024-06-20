@@ -1,6 +1,6 @@
 
 import 'package:client_meta/logger/logger_printer.dart';
-import 'package:client_meta/presentation/service/secure/secure_stor.dart';
+import 'package:client_meta/presentation/data/service/secure/secure_stor.dart';
 
 import "package:pointycastle/export.dart";
 import 'package:pointycastle/src/platform_check/platform_check.dart';

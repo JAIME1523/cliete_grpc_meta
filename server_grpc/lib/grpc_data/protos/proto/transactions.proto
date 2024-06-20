@@ -15,12 +15,11 @@ enum TransactionStatus {
 }
 
 message Transaction{
-    string id = 1;
-    TransactionStatus status = 2;
-    TransactionType type = 3;
-    int32 amount = 4;
-    optional string referenceNumber = 5;
-    optional string arqc = 6;
-    optional string maskPan = 7;
-    optional string authorizationNumber = 8;
+    TransactionStatus status = 1;
+    TransactionType type = 2;
+    int32 amount = 3;
+    optional string referenceNumber = 4;
+    optional string arqc = 5;
+    optional string maskPan = 6;
+    optional string authorizationNumber = 7;
 }

@@ -20,6 +20,7 @@ class MetaErrorCode extends $pb.ProtobufEnum {
   static const MetaErrorCode AuthError = MetaErrorCode._(3, _omitEnumNames ? '' : 'AuthError');
   static const MetaErrorCode InvalidCounter = MetaErrorCode._(4, _omitEnumNames ? '' : 'InvalidCounter');
   static const MetaErrorCode PublicKeyError = MetaErrorCode._(5, _omitEnumNames ? '' : 'PublicKeyError');
+  static const MetaErrorCode WrongRandomCode = MetaErrorCode._(6, _omitEnumNames ? '' : 'WrongRandomCode');
 
   static const $core.List<MetaErrorCode> values = <MetaErrorCode> [
     InternalError,
@@ -28,6 +29,7 @@ class MetaErrorCode extends $pb.ProtobufEnum {
     AuthError,
     InvalidCounter,
     PublicKeyError,
+    WrongRandomCode,
   ];
 
   static final $core.Map<$core.int, MetaErrorCode> _byValue = $pb.ProtobufEnum.initByValue(values);

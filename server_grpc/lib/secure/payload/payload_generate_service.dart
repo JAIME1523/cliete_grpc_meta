@@ -1,5 +1,6 @@
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../../server_grpc.dart';
@@ -12,12 +13,14 @@ class PayloadGenerateService {
     return digest.bytes;
   }
 
-  Future<bool> validatePlayload(
+static  Future<bool> validatePlayload(
       {required List<int> receivedPayload,
       required List<int> myPayload}) async {
-    return receivedPayload == myPayload ? true : false;
+        print( ' este lo recibi$receivedPayload');
+        print(' este lo genero$myPayload');
+print(listEquals(receivedPayload, myPayload));
+    return listEquals(receivedPayload, myPayload);
   }
-
   static Future<List<int>> counterPayloGener({required String counter}) async {
     final payload = _paHexToBytes(counter);
     final payloadHmacSha256 = await _generatedMacPayload(payload);
@@ -25,11 +28,18 @@ class PayloadGenerateService {
   }
 
   static Future<List<int>> counterAmountPayloGener({required String counter, required String amount}) async {
+    amount ='${double.parse(amount)}';
+    print('¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨');
+    print(amount);
+
     final newValue = amount.split('.');
-    final penny = _paddRight(newValue.last);
+      final penny = _paddRight(newValue.length > 1 ? newValue.last :'0' );
+
     final money = _padd(newValue.first);
     final newCoutenr = _padd(counter);
+    print('$newCoutenr$money$penny');
     final exa = _paHexToBytes('$newCoutenr$money$penny');
+    print(exa);
     final payloadHmacSha256 = await _generatedMacPayload(exa);
 
     return payloadHmacSha256;

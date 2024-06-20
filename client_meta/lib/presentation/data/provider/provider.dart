@@ -1,0 +1,1 @@
+export 'package:client_meta/presentation/data/provider/home_provider.dart';

@@ -46,14 +46,13 @@ final $typed_data.Uint8List transactionStatusDescriptor = $convert.base64Decode(
 const Transaction$json = {
   '1': 'Transaction',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
-    {'1': 'status', '3': 2, '4': 1, '5': 14, '6': '.agnostiko_meta.TransactionStatus', '10': 'status'},
-    {'1': 'type', '3': 3, '4': 1, '5': 14, '6': '.agnostiko_meta.TransactionType', '10': 'type'},
-    {'1': 'amount', '3': 4, '4': 1, '5': 5, '10': 'amount'},
-    {'1': 'referenceNumber', '3': 5, '4': 1, '5': 9, '9': 0, '10': 'referenceNumber', '17': true},
-    {'1': 'arqc', '3': 6, '4': 1, '5': 9, '9': 1, '10': 'arqc', '17': true},
-    {'1': 'maskPan', '3': 7, '4': 1, '5': 9, '9': 2, '10': 'maskPan', '17': true},
-    {'1': 'authorizationNumber', '3': 8, '4': 1, '5': 9, '9': 3, '10': 'authorizationNumber', '17': true},
+    {'1': 'status', '3': 1, '4': 1, '5': 14, '6': '.agnostiko_meta.TransactionStatus', '10': 'status'},
+    {'1': 'type', '3': 2, '4': 1, '5': 14, '6': '.agnostiko_meta.TransactionType', '10': 'type'},
+    {'1': 'amount', '3': 3, '4': 1, '5': 5, '10': 'amount'},
+    {'1': 'referenceNumber', '3': 4, '4': 1, '5': 9, '9': 0, '10': 'referenceNumber', '17': true},
+    {'1': 'arqc', '3': 5, '4': 1, '5': 9, '9': 1, '10': 'arqc', '17': true},
+    {'1': 'maskPan', '3': 6, '4': 1, '5': 9, '9': 2, '10': 'maskPan', '17': true},
+    {'1': 'authorizationNumber', '3': 7, '4': 1, '5': 9, '9': 3, '10': 'authorizationNumber', '17': true},
   ],
   '8': [
     {'1': '_referenceNumber'},
@@ -65,12 +64,11 @@ const Transaction$json = {
 
 /// Descriptor for `Transaction`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List transactionDescriptor = $convert.base64Decode(
-    'CgtUcmFuc2FjdGlvbhIOCgJpZBgBIAEoCVICaWQSOQoGc3RhdHVzGAIgASgOMiEuYWdub3N0aW'
-    'tvX21ldGEuVHJhbnNhY3Rpb25TdGF0dXNSBnN0YXR1cxIzCgR0eXBlGAMgASgOMh8uYWdub3N0'
-    'aWtvX21ldGEuVHJhbnNhY3Rpb25UeXBlUgR0eXBlEhYKBmFtb3VudBgEIAEoBVIGYW1vdW50Ei'
-    '0KD3JlZmVyZW5jZU51bWJlchgFIAEoCUgAUg9yZWZlcmVuY2VOdW1iZXKIAQESFwoEYXJxYxgG'
-    'IAEoCUgBUgRhcnFjiAEBEh0KB21hc2tQYW4YByABKAlIAlIHbWFza1BhbogBARI1ChNhdXRob3'
-    'JpemF0aW9uTnVtYmVyGAggASgJSANSE2F1dGhvcml6YXRpb25OdW1iZXKIAQFCEgoQX3JlZmVy'
-    'ZW5jZU51bWJlckIHCgVfYXJxY0IKCghfbWFza1BhbkIWChRfYXV0aG9yaXphdGlvbk51bWJlcg'
-    '==');
+    'CgtUcmFuc2FjdGlvbhI5CgZzdGF0dXMYASABKA4yIS5hZ25vc3Rpa29fbWV0YS5UcmFuc2FjdG'
+    'lvblN0YXR1c1IGc3RhdHVzEjMKBHR5cGUYAiABKA4yHy5hZ25vc3Rpa29fbWV0YS5UcmFuc2Fj'
+    'dGlvblR5cGVSBHR5cGUSFgoGYW1vdW50GAMgASgFUgZhbW91bnQSLQoPcmVmZXJlbmNlTnVtYm'
+    'VyGAQgASgJSABSD3JlZmVyZW5jZU51bWJlcogBARIXCgRhcnFjGAUgASgJSAFSBGFycWOIAQES'
+    'HQoHbWFza1BhbhgGIAEoCUgCUgdtYXNrUGFuiAEBEjUKE2F1dGhvcml6YXRpb25OdW1iZXIYBy'
+    'ABKAlIA1ITYXV0aG9yaXphdGlvbk51bWJlcogBAUISChBfcmVmZXJlbmNlTnVtYmVyQgcKBV9h'
+    'cnFjQgoKCF9tYXNrUGFuQhYKFF9hdXRob3JpemF0aW9uTnVtYmVy');
 

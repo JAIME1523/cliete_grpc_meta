@@ -151,6 +151,7 @@ class RegisterClientResponse extends $pb.GeneratedMessage {
   factory RegisterClientResponse({
     $core.String? macLabel,
     $core.List<$core.int>? macKey,
+    MetaError? error,
   }) {
     final $result = create();
     if (macLabel != null) {
@@ -158,6 +159,9 @@ class RegisterClientResponse extends $pb.GeneratedMessage {
     }
     if (macKey != null) {
       $result.macKey = macKey;
+    }
+    if (error != null) {
+      $result.error = error;
     }
     return $result;
   }
@@ -168,6 +172,7 @@ class RegisterClientResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterClientResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'macLabel', protoName: 'macLabel')
     ..a<$core.List<$core.int>>(2, _omitFieldNames ? '' : 'macKey', $pb.PbFieldType.OY, protoName: 'macKey')
+    ..aOM<MetaError>(3, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
     ..hasRequiredFields = false
   ;
 
@@ -209,6 +214,17 @@ class RegisterClientResponse extends $pb.GeneratedMessage {
   $core.bool hasMacKey() => $_has(1);
   @$pb.TagNumber(2)
   void clearMacKey() => clearField(2);
+
+  @$pb.TagNumber(3)
+  MetaError get error => $_getN(2);
+  @$pb.TagNumber(3)
+  set error(MetaError v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasError() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearError() => clearField(3);
+  @$pb.TagNumber(3)
+  MetaError ensureError() => $_ensure(2);
 }
 
 class AuthData extends $pb.GeneratedMessage {
@@ -289,7 +305,6 @@ class AuthData extends $pb.GeneratedMessage {
   void clearMac() => clearField(3);
 }
 
-/// El campo "origin" permite identificar la app que está mandando el request para asegurar el poder diferenciar los ids pertenecientes a cada app
 class RegisterTransactionRequest extends $pb.GeneratedMessage {
   factory RegisterTransactionRequest({
     $0.Transaction? transaction,
@@ -374,13 +389,13 @@ class RegisterTransactionRequest extends $pb.GeneratedMessage {
 
 class RegisterTransactionResponse extends $pb.GeneratedMessage {
   factory RegisterTransactionResponse({
-    $core.bool? success,
+    $core.String? id,
     MetaError? error,
     AuthData? authData,
   }) {
     final $result = create();
-    if (success != null) {
-      $result.success = success;
+    if (id != null) {
+      $result.id = id;
     }
     if (error != null) {
       $result.error = error;
@@ -395,7 +410,7 @@ class RegisterTransactionResponse extends $pb.GeneratedMessage {
   factory RegisterTransactionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'RegisterTransactionResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
-    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
     ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
@@ -423,13 +438,13 @@ class RegisterTransactionResponse extends $pb.GeneratedMessage {
   static RegisterTransactionResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.bool get success => $_getBF(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set success($core.bool v) { $_setBool(0, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasSuccess() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearSuccess() => clearField(1);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
   MetaError get error => $_getN(1);
@@ -536,11 +551,15 @@ class StartTransactionRequest extends $pb.GeneratedMessage {
 
 class TransactionNotification extends $pb.GeneratedMessage {
   factory TransactionNotification({
+    $core.String? id,
     $0.Transaction? transaction,
     MetaError? error,
     AuthData? authData,
   }) {
     final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
     if (transaction != null) {
       $result.transaction = transaction;
     }
@@ -557,9 +576,10 @@ class TransactionNotification extends $pb.GeneratedMessage {
   factory TransactionNotification.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TransactionNotification', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
-    ..aOM<$0.Transaction>(1, _omitFieldNames ? '' : 'transaction', subBuilder: $0.Transaction.create)
-    ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
-    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOM<$0.Transaction>(2, _omitFieldNames ? '' : 'transaction', subBuilder: $0.Transaction.create)
+    ..aOM<MetaError>(3, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(4, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -585,37 +605,46 @@ class TransactionNotification extends $pb.GeneratedMessage {
   static TransactionNotification? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $0.Transaction get transaction => $_getN(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set transaction($0.Transaction v) { setField(1, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasTransaction() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTransaction() => clearField(1);
-  @$pb.TagNumber(1)
-  $0.Transaction ensureTransaction() => $_ensure(0);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  MetaError get error => $_getN(1);
+  $0.Transaction get transaction => $_getN(1);
   @$pb.TagNumber(2)
-  set error(MetaError v) { setField(2, v); }
+  set transaction($0.Transaction v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasError() => $_has(1);
+  $core.bool hasTransaction() => $_has(1);
   @$pb.TagNumber(2)
-  void clearError() => clearField(2);
+  void clearTransaction() => clearField(2);
   @$pb.TagNumber(2)
-  MetaError ensureError() => $_ensure(1);
+  $0.Transaction ensureTransaction() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  AuthData get authData => $_getN(2);
+  MetaError get error => $_getN(2);
   @$pb.TagNumber(3)
-  set authData(AuthData v) { setField(3, v); }
+  set error(MetaError v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasAuthData() => $_has(2);
+  $core.bool hasError() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAuthData() => clearField(3);
+  void clearError() => clearField(3);
   @$pb.TagNumber(3)
-  AuthData ensureAuthData() => $_ensure(2);
+  MetaError ensureError() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  AuthData get authData => $_getN(3);
+  @$pb.TagNumber(4)
+  set authData(AuthData v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAuthData() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAuthData() => clearField(4);
+  @$pb.TagNumber(4)
+  AuthData ensureAuthData() => $_ensure(3);
 }
 
 class GetTransactionRequest extends $pb.GeneratedMessage {
@@ -700,11 +729,15 @@ class GetTransactionRequest extends $pb.GeneratedMessage {
 
 class GetTransactionResponse extends $pb.GeneratedMessage {
   factory GetTransactionResponse({
+    $core.String? id,
     $0.Transaction? transaction,
     MetaError? error,
     AuthData? authData,
   }) {
     final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
     if (transaction != null) {
       $result.transaction = transaction;
     }
@@ -721,9 +754,10 @@ class GetTransactionResponse extends $pb.GeneratedMessage {
   factory GetTransactionResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetTransactionResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
-    ..aOM<$0.Transaction>(1, _omitFieldNames ? '' : 'transaction', subBuilder: $0.Transaction.create)
-    ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
-    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOM<$0.Transaction>(2, _omitFieldNames ? '' : 'transaction', subBuilder: $0.Transaction.create)
+    ..aOM<MetaError>(3, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(4, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -749,37 +783,46 @@ class GetTransactionResponse extends $pb.GeneratedMessage {
   static GetTransactionResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $0.Transaction get transaction => $_getN(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set transaction($0.Transaction v) { setField(1, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasTransaction() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearTransaction() => clearField(1);
-  @$pb.TagNumber(1)
-  $0.Transaction ensureTransaction() => $_ensure(0);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  MetaError get error => $_getN(1);
+  $0.Transaction get transaction => $_getN(1);
   @$pb.TagNumber(2)
-  set error(MetaError v) { setField(2, v); }
+  set transaction($0.Transaction v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasError() => $_has(1);
+  $core.bool hasTransaction() => $_has(1);
   @$pb.TagNumber(2)
-  void clearError() => clearField(2);
+  void clearTransaction() => clearField(2);
   @$pb.TagNumber(2)
-  MetaError ensureError() => $_ensure(1);
+  $0.Transaction ensureTransaction() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  AuthData get authData => $_getN(2);
+  MetaError get error => $_getN(2);
   @$pb.TagNumber(3)
-  set authData(AuthData v) { setField(3, v); }
+  set error(MetaError v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasAuthData() => $_has(2);
+  $core.bool hasError() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAuthData() => clearField(3);
+  void clearError() => clearField(3);
   @$pb.TagNumber(3)
-  AuthData ensureAuthData() => $_ensure(2);
+  MetaError ensureError() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  AuthData get authData => $_getN(3);
+  @$pb.TagNumber(4)
+  set authData(AuthData v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAuthData() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAuthData() => clearField(4);
+  @$pb.TagNumber(4)
+  AuthData ensureAuthData() => $_ensure(3);
 }
 
 class GetStatusRequest extends $pb.GeneratedMessage {
@@ -864,11 +907,15 @@ class GetStatusRequest extends $pb.GeneratedMessage {
 
 class GetStatusResponse extends $pb.GeneratedMessage {
   factory GetStatusResponse({
+    $core.String? id,
     $0.TransactionStatus? status,
     MetaError? error,
     AuthData? authData,
   }) {
     final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
     if (status != null) {
       $result.status = status;
     }
@@ -885,9 +932,10 @@ class GetStatusResponse extends $pb.GeneratedMessage {
   factory GetStatusResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStatusResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
-    ..e<$0.TransactionStatus>(1, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: $0.TransactionStatus.Pending, valueOf: $0.TransactionStatus.valueOf, enumValues: $0.TransactionStatus.values)
-    ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
-    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..e<$0.TransactionStatus>(2, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: $0.TransactionStatus.Pending, valueOf: $0.TransactionStatus.valueOf, enumValues: $0.TransactionStatus.values)
+    ..aOM<MetaError>(3, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(4, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -913,35 +961,44 @@ class GetStatusResponse extends $pb.GeneratedMessage {
   static GetStatusResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $0.TransactionStatus get status => $_getN(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set status($0.TransactionStatus v) { setField(1, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasStatus() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStatus() => clearField(1);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  MetaError get error => $_getN(1);
+  $0.TransactionStatus get status => $_getN(1);
   @$pb.TagNumber(2)
-  set error(MetaError v) { setField(2, v); }
+  set status($0.TransactionStatus v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasError() => $_has(1);
+  $core.bool hasStatus() => $_has(1);
   @$pb.TagNumber(2)
-  void clearError() => clearField(2);
-  @$pb.TagNumber(2)
-  MetaError ensureError() => $_ensure(1);
+  void clearStatus() => clearField(2);
 
   @$pb.TagNumber(3)
-  AuthData get authData => $_getN(2);
+  MetaError get error => $_getN(2);
   @$pb.TagNumber(3)
-  set authData(AuthData v) { setField(3, v); }
+  set error(MetaError v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasAuthData() => $_has(2);
+  $core.bool hasError() => $_has(2);
   @$pb.TagNumber(3)
-  void clearAuthData() => clearField(3);
+  void clearError() => clearField(3);
   @$pb.TagNumber(3)
-  AuthData ensureAuthData() => $_ensure(2);
+  MetaError ensureError() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  AuthData get authData => $_getN(3);
+  @$pb.TagNumber(4)
+  set authData(AuthData v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAuthData() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAuthData() => clearField(4);
+  @$pb.TagNumber(4)
+  AuthData ensureAuthData() => $_ensure(3);
 }
 
 

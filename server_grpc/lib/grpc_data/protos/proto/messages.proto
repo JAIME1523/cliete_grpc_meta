@@ -11,6 +11,7 @@ enum MetaErrorCode{
     AuthError = 3; 
     InvalidCounter = 4; 
     PublicKeyError = 5;
+    WrongRandomCode = 6;
 }
 
 message MetaError{
@@ -26,6 +27,7 @@ message RegisterClientRequest{
 message RegisterClientResponse{
     string macLabel = 1;
     bytes macKey = 2; 
+    optional MetaError error = 3; 
 }
 
 message AuthData{
@@ -34,7 +36,6 @@ message AuthData{
     bytes mac = 3; 
 }
 
-// El campo "origin" permite identificar la app que está mandando el request para asegurar el poder diferenciar los ids pertenecientes a cada app
 message RegisterTransactionRequest{
     Transaction transaction = 1;
     string origin = 2; 
@@ -42,7 +43,7 @@ message RegisterTransactionRequest{
 }
 
 message RegisterTransactionResponse{
-    bool success = 1;
+    optional string id = 1;
     optional MetaError error = 2;  
     AuthData authData = 3;
 }
@@ -54,9 +55,10 @@ message StartTransactionRequest{
 }
 
 message TransactionNotification{
-    optional Transaction transaction = 1;
-    optional MetaError error = 2;
-    AuthData authData = 3;
+    optional string id = 1;
+    optional Transaction transaction = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
 }
 
 message GetTransactionRequest{
@@ -66,9 +68,10 @@ message GetTransactionRequest{
 }
 
 message GetTransactionResponse{
-    optional Transaction transaction = 1;
-    optional MetaError error = 2;
-    AuthData authData = 3;
+    optional string id = 1;
+    optional Transaction transaction = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
 }
 
 message GetStatusRequest{
@@ -78,9 +81,10 @@ message GetStatusRequest{
 }
 
 message GetStatusResponse{
-    optional TransactionStatus status = 1;
-    optional MetaError error = 2;
-    AuthData authData = 3;
+    optional string id = 1;
+    optional TransactionStatus status = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
 }
 
 

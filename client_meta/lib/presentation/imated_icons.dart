@@ -34,8 +34,7 @@ class _AmiatedPageState extends State<AmiatedPage> {
             return Container(
               width: size,
               height: size,
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, border: Border.all()),
+              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all()),
             );
           },
         ),

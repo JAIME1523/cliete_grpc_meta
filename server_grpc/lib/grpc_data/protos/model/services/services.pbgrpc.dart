@@ -14,7 +14,6 @@ import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
 import 'package:protobuf/protobuf.dart' as $pb;
-
 import '../message/messages.pb.dart' as $0;
 import '../test/test_conect.pb.dart' as $1;
 

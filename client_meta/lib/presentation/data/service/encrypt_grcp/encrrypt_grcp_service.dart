@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:basic_utils/basic_utils.dart';
-import 'package:client_meta/presentation/service/encrypt/rsa_service.dart';
+import 'package:client_meta/presentation/data/service/encrypt/rsa_service.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:server_grpc/secure/secure.dart';
 
-import '../../../logger/logger_printer.dart';
+import '../../../../logger/logger_printer.dart';
 import '../secure/secure_stor.dart';
 
 class EncryptGrcpService {
@@ -25,7 +25,7 @@ class EncryptGrcpService {
         privateKey: await SecureStor.getPrivcKey(),
         encoding: RSAEncoding.OAEP));
     final macDecr = decrip.decryptBytes(Encrypted(Uint8List.fromList(mackey)));
-    EncryptService.saveMac(Uint8List.fromList(macDecr));
+  await  EncryptService.saveMac(Uint8List.fromList(macDecr));
   }
 
  static getMac()async{
