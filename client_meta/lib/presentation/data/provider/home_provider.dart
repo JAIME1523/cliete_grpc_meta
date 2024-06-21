@@ -1,11 +1,12 @@
 import 'package:client_meta/presentation/data/service/conect_service.dart';
 import 'package:client_meta/presentation/data/service/helper/local_storage.dart';
 import 'package:client_meta/presentation/data/service/secure/secure_stor.dart';
+import 'package:client_meta/presentation/utils/uitls_amont.dart';
 import 'package:client_meta/presentation/widgets/custom_input.dart';
 import 'package:client_meta/presentation/widgets/custom_snack.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nav_service/nav_service.dart';
+import 'package:provider/provider.dart';
 import 'package:server_grpc/database/models/transaction_grpc_model.dart';
 import 'package:server_grpc/grpc_data/grpc_data.dart';
 
@@ -14,7 +15,10 @@ class HomeProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool _isEditing = false;
   bool _isCanSave = false;
+  bool _activeButon = false;
+
   List<TransactionGRpcModel> transacintionSave = [];
+  final _formKey = GlobalKey<FormState>();
 
   String ipConfig = LocalStorage.getIpAdrres();
   int port = LocalStorage.getPort();
@@ -23,9 +27,7 @@ class HomeProvider extends ChangeNotifier {
   TextEditingController porgController = TextEditingController();
 
   validateForm() {
-    if (ipgController.text != LocalStorage.getIpAdrres() ||
-        porgController.text != LocalStorage.getPort().toString())
-      return isCanSave = true;
+    if (ipgController.text != LocalStorage.getIpAdrres() ||porgController.text != LocalStorage.getPort().toString())return isCanSave = true;
     isCanSave = false;
   }
 
@@ -46,57 +48,70 @@ class HomeProvider extends ChangeNotifier {
   }
 
   alertInsert() {
-    final TextEditingController _monto = TextEditingController();
-
+    _activeButon = false;
+    final TextEditingController monto = TextEditingController();
     final context = NavService.contextNav;
     showDialog(
         context: context,
         builder: (_) {
+           final provider = context.watch<HomeProvider>();
           final size = MediaQuery.sizeOf(context);
           return AlertDialog(
             content: SizedBox(
               height: size.height * 0.3,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text('Ingresa monto'),
-                  CustomInputField(
-                    onSubmitted: (va) {
-                      sendInert(_monto.text);
-                    },
-                    controller: _monto,
-                    keyboardType: TextInputType.number,
-                  ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        sendInert(_monto.text);
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Text('Ingresa monto'),
+                    CustomInputField(
+                      onChange: (va){
+                        validateInput();
                       },
-                      child: const Text('Ok'))
-                ],
+                      validator: (value) {
+                        return UtilsAmont.validtesAmont(value ?? '');
+                      },
+                      onSubmitted: (va) {
+                        sendInert(monto.text);
+                      },
+                      controller: monto,
+                      keyboardType: TextInputType.number,
+                    ),
+                    ElevatedButton(
+                        onPressed: provider._activeButon ? () async {
+                          sendInert(monto.text);
+                        }:null,
+                        child: const Text('Guardar'))
+                  ],
+                ),
               ),
             ),
           );
         });
   }
-
+ validateInput(){
+  _activeButon = _formKey.currentState!.validate();
+  notifyListeners();
+ }
   sendInert(String amontR) async {
     final amontArray = amontR.split('.');
     if (amontArray.length <= 1) {
       amontArray.add('00');
     }
+
     amontArray[1] = amontArray[1].padRight(2, '0');
-    amontArray[1].padRight(2, '0');
+    //amontArray[1].padRight(2, '0');
     final amont = amontArray.join();
-    print('este $amont');
     NavService.pop();
     if (amont.isEmpty || amont == '0' || amont == '0.00' || amont == '0.0') {
       return;
     }
-
     final int newmont = int.tryParse(amont) ?? 0;
-    if (newmont == 0){
+    if (newmont == 0) {
       CustomSnack.errorSnack('Valor invalido');
-       return;}
+      return;
+    }
     isLoading = true;
 
     final resp = await ConectServices.insertTransaction(newmont);
@@ -111,6 +126,13 @@ class HomeProvider extends ChangeNotifier {
     porgController.clear();
     isEditing = false;
     isCanSave = false;
+  }
+
+  Future cleanMatch()async{
+   await SecureStor.storage.deleteAll();
+   transacintionSave.clear();
+   validateMact();
+
   }
 
   validateMact() async {

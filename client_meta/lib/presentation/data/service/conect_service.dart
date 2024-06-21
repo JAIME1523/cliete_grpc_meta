@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 import 'package:nav_service/nav_service.dart';
 import 'package:provider/provider.dart';
-import 'package:server_grpc/grpc_data/grpc_data.dart';
 import 'package:server_grpc/grpc_data/protos/model/test/test_conect.pb.dart';
 import 'package:server_grpc/server_grpc.dart';
 
@@ -215,6 +214,7 @@ class ConectServices {
     if (metaSrteam != null) {
       logger.d('******* se cancela el stream ');
     }
+    bool isCancel = true;
     try {
       final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.counter);
       logger.f('esta es ladata que madno$auth');
@@ -224,29 +224,44 @@ class ConectServices {
         authData: auth,
         origin: 'Desde web',
       ));
+      Future.delayed(const Duration(seconds: 90)).then((value) async {
+        if (isCancel) {
+          CustomSnack.errorSnack('Tiempo de espera excedido ');
+          await channel.shutdown().catchError((error) {});
+          metaSrteam!.cancel().catchError((val) {});
+          
+        }
+      });
       metaSrteam!.asBroadcastStream().listen((event) async {
+        isCancel = false;
         logger.f(event);
-
         if (event.id.isNotEmpty) {
-          logger.d('La repsuesta no tine error');
-
           final isValid = await AtuhDataSerice.validate(
               typeAuth: TypeAuth.counterStatus,
               authData: event.authData,
               status: event.transaction.status);
-
           print(isValid);
           if (isValid.isRight()) {
             logger.d('Todo fine');
-            NavService.contextNav.read<HomeProvider>().updateElemnt(id: event.id, status: event.transaction.status);
-             CustomSnack.showMessage('Se realizo transacción');
+            NavService.contextNav
+                .read<HomeProvider>()
+                .updateElemnt(id: event.id, status: event.transaction.status);
+            CustomSnack.showMessage('Se realizo transacción');
+            return;
           } else {
             await LocalStorage.getSaveCounter();
             logger.e('No COINCIDE');
+            
+            return;
           }
         }
-         CustomSnack.errorSnack( event.error.errorMsg.isNotEmpty? event.error.errorMsg : 'La operación fallo');
+        if(event.hasError()){
+     CustomSnack.errorSnack(event.error.errorMsg.isNotEmpty
+            ? event.error.errorMsg
+            : 'La operación fallo');
         logger.d(event);
+        }
+   
 
         try {
           await channel.shutdown().catchError((error) {});
@@ -257,6 +272,7 @@ class ConectServices {
         _update(id);
       });
     } catch (e) {
+      isCancel = false;
       await channel.shutdown();
       await metaSrteam!.cancel();
     }
@@ -318,10 +334,12 @@ class ConectServices {
     );
   }
 
- static _update(String id) async {
+  static _update(String id) async {
     final resul = await ConectServices.getTransaction(id);
     if (resul.transcion != null) {
-       NavService.contextNav.read<HomeProvider>().updateElemnt(id:id, status: resul.transcion!.status!);
+      NavService.contextNav
+          .read<HomeProvider>()
+          .updateElemnt(id: id, status: resul.transcion!.status!);
     }
   }
 }

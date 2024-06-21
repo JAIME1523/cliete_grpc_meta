@@ -1,9 +1,9 @@
 import 'package:client_meta/presentation/data/provider/home_provider.dart';
+import 'package:client_meta/presentation/utils/uitls_amont.dart';
 import 'package:client_meta/presentation/widgets/custom_snack.dart';
 import 'package:client_meta/presentation/widgets/info_trancaction.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:server_grpc/server_grpc.dart';
 
 import '../data/service/conect_service.dart';
 
@@ -97,6 +97,18 @@ class TransactionView extends StatelessWidget {
               InfoTranction.showLisTrac(provider.transacintionSave);
             },
             child: const Text('transacciones registradas'),
+          ),
+
+          ElevatedButton(
+            onPressed: () async {
+              UtilsAmont.validtesAmont('30.5');
+              UtilsAmont.validtesAmont('30.');
+              UtilsAmont.validtesAmont('30.5000');
+              UtilsAmont.validtesAmont('30.0004');
+
+
+            },
+            child: const Text('exprte'),
           ),
 
   

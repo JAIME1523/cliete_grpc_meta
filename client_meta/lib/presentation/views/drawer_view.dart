@@ -73,7 +73,7 @@ class _EditdConect extends StatelessWidget {
                   ? () async {
                       await provider.saveInfo();
                       // ignore: use_build_context_synchronously
-                     Navigator.pop(context);
+                      Navigator.pop(context);
                     }
                   : null,
               height: 40,
@@ -91,27 +91,50 @@ class _ShowInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<HomeProvider>();
-final styleText = Theme.of(context).textTheme;
+    final styleText = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('Dirección Ip:',  style: styleText.bodySmall,),
-        Text(LocalStorage.getIpAdrres(), style: styleText.titleMedium,),
+        Text(
+          'Dirección Ip:',
+          style: styleText.bodySmall,
+        ),
+        Text(
+          LocalStorage.getIpAdrres(),
+          style: styleText.titleMedium,
+        ),
         const SizedBox(height: 20),
-
-        Text('Puerto de conexión: ',  style: styleText.bodySmall,),
-        Text( LocalStorage.getPort().toString(),  style: styleText.titleMedium,),
+        Text(
+          'Puerto de conexión: ',
+          style: styleText.bodySmall,
+        ),
+        Text(
+          LocalStorage.getPort().toString(),
+          style: styleText.titleMedium,
+        ),
         const SizedBox(height: 20),
         PrimaryButton(
             onPressed: () {
               provider.isEditing = true;
               provider.ipgController.text = LocalStorage.getIpAdrres();
-              provider.porgController.text =  LocalStorage.getPort().toString();
+              provider.porgController.text = LocalStorage.getPort().toString();
             },
             height: 40,
             width: 120,
-            title: 'Editar')
+            title: 'Editar'),
+        const SizedBox(
+          height: 40,
+        ),
+        if (provider.isMatch)
+          PrimaryButton(
+            backgroundColor: colors.inversePrimary,
+            title: 'Volver a vincular ',
+            onPressed: () {
+              provider.cleanMatch();
+            },
+          )
       ],
     );
   }

@@ -15,7 +15,7 @@ class CustomInputField extends StatelessWidget {
   final Function(String)? onSubmitted;
   final Function(String)? onChange;
   final EdgeInsets? scrollPadding;
-
+ final String? Function(String?)? validator;
   const CustomInputField({
     super.key,
     this.controller,
@@ -27,7 +27,7 @@ class CustomInputField extends StatelessWidget {
     this.maxLines = 1,
     this.radius = 8,
     this.space,
-    this.onSubmitted,  this.prefixIcon, this.onChange,  this.scrollPadding,
+    this.onSubmitted,  this.prefixIcon, this.onChange,  this.scrollPadding, this.validator,
   });
 
   @override
@@ -35,10 +35,11 @@ class CustomInputField extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     return Column(
       children: [
-        TextField(
+        TextFormField(
           //scrollPadding: scrollPadding,
+          validator: validator,
+          onFieldSubmitted:onSubmitted ,
           onChanged: onChange,
-            onSubmitted: onSubmitted,
             controller: controller,
             inputFormatters: inputFormatters,
             keyboardType: keyboardType,
