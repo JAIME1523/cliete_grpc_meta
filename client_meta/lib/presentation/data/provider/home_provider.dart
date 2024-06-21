@@ -2,10 +2,12 @@ import 'package:client_meta/presentation/data/service/conect_service.dart';
 import 'package:client_meta/presentation/data/service/helper/local_storage.dart';
 import 'package:client_meta/presentation/data/service/secure/secure_stor.dart';
 import 'package:client_meta/presentation/widgets/custom_input.dart';
+import 'package:client_meta/presentation/widgets/custom_snack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nav_service/nav_service.dart';
 import 'package:server_grpc/database/models/transaction_grpc_model.dart';
+import 'package:server_grpc/grpc_data/grpc_data.dart';
 
 class HomeProvider extends ChangeNotifier {
   bool _isMatch = false;
@@ -27,6 +29,15 @@ class HomeProvider extends ChangeNotifier {
     isCanSave = false;
   }
 
+  updateElemnt({required String id, required TransactionStatus status}) {
+    for (var i = 0; i < transacintionSave.length; i++) {
+      final tra = transacintionSave[i];
+      if (tra.idProtoTransaction == id) {
+        transacintionSave[i] = transacintionSave[i].copyWith(status: status);
+      }
+    }
+  }
+
   saveInfo() async {
     await LocalStorage.setInt(
         PreferencesInt.port, int.tryParse(porgController.text) ?? 8080);
@@ -35,7 +46,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   alertInsert() {
-    TextEditingController monto = TextEditingController();
+    final TextEditingController _monto = TextEditingController();
 
     final context = NavService.contextNav;
     showDialog(
@@ -50,22 +61,15 @@ class HomeProvider extends ChangeNotifier {
                 children: [
                   const Text('Ingresa monto'),
                   CustomInputField(
-                    controller: monto,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    onSubmitted: (va) {
+                      sendInert(_monto.text);
+                    },
+                    controller: _monto,
                     keyboardType: TextInputType.number,
                   ),
                   ElevatedButton(
                       onPressed: () async {
-                        isLoading = true;
-                        final int newmont = int.parse(monto.text);
-                        NavService.pop();
-
-                        final resp =
-                            await ConectServices.insertTransaction(newmont);
-                        if (resp.transcion != null) {
-                          transacintionSave.add(resp.transcion!);
-                        }
-                        isLoading = false;
+                        sendInert(_monto.text);
                       },
                       child: const Text('Ok'))
                 ],
@@ -73,6 +77,33 @@ class HomeProvider extends ChangeNotifier {
             ),
           );
         });
+  }
+
+  sendInert(String amontR) async {
+    final amontArray = amontR.split('.');
+    if (amontArray.length <= 1) {
+      amontArray.add('00');
+    }
+    amontArray[1] = amontArray[1].padRight(2, '0');
+    amontArray[1].padRight(2, '0');
+    final amont = amontArray.join();
+    print('este $amont');
+    NavService.pop();
+    if (amont.isEmpty || amont == '0' || amont == '0.00' || amont == '0.0') {
+      return;
+    }
+
+    final int newmont = int.tryParse(amont) ?? 0;
+    if (newmont == 0){
+      CustomSnack.errorSnack('Valor invalido');
+       return;}
+    isLoading = true;
+
+    final resp = await ConectServices.insertTransaction(newmont);
+    if (resp.transcion != null) {
+      transacintionSave.add(resp.transcion!);
+    }
+    isLoading = false;
   }
 
   cleanFrom() {

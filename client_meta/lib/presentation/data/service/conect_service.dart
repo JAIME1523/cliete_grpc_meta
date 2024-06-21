@@ -1,12 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:math';
 
 import 'package:client_meta/presentation/data/model/models.dart';
+import 'package:client_meta/presentation/data/provider/home_provider.dart';
 import 'package:client_meta/presentation/data/service/encrypt_grcp/encrrypt_grcp_service.dart';
 import 'package:client_meta/presentation/data/service/helper/auth_data.dart';
 import 'package:client_meta/presentation/data/service/helper/local_storage.dart';
 import 'package:client_meta/presentation/widgets/custom_snack.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
+import 'package:nav_service/nav_service.dart';
+import 'package:provider/provider.dart';
 import 'package:server_grpc/grpc_data/grpc_data.dart';
 import 'package:server_grpc/grpc_data/protos/model/test/test_conect.pb.dart';
 import 'package:server_grpc/server_grpc.dart';
@@ -71,7 +76,7 @@ class ConectServices {
               TransactionGRpcModel.fromMapByGrpc(transac.writeToJsonMap())
                   .copyWith(idProtoTransaction: response.id);
 
-        return  ResponseModel(status: true, info: 'Fine', transcion: tran);
+          return ResponseModel(status: true, info: 'Fine', transcion: tran);
 
           /* await channel.shutdown();
 
@@ -83,18 +88,16 @@ class ConectServices {
           CustomSnack.errorSnack('No se puede autenticar');
           logger.e('No COINCIDE');
 
-       return   ResponseModel(status: false, info: 'No se puede autenticar');
+          return ResponseModel(status: false, info: 'No se puede autenticar');
         }
       }
       logger.d(response);
 
-    return  ResponseModel(status: false, info: response.error.errorMsg);
-
+      return ResponseModel(status: false, info: response.error.errorMsg);
     } catch (e) {
       await channel.shutdown();
 
-    return  ResponseModel(status: false, info: 'Error en esta app');
-
+      return ResponseModel(status: false, info: 'Error en esta app');
     }
   }
 
@@ -166,8 +169,9 @@ class ConectServices {
 
         print(isValid);
         if (isValid.isRight()) {
-          if (response.id.isNotEmpty)
+          if (response.id.isNotEmpty) {
             return CustomSnack.showMessage(response.status.name);
+          }
           CustomSnack.errorSnack(response.error.errorMsg);
           logger.d('Todo fine');
         } else {
@@ -221,7 +225,9 @@ class ConectServices {
         origin: 'Desde web',
       ));
       metaSrteam!.asBroadcastStream().listen((event) async {
-        if (event.error.errorMsg.isEmpty) {
+        logger.f(event);
+
+        if (event.id.isNotEmpty) {
           logger.d('La repsuesta no tine error');
 
           final isValid = await AtuhDataSerice.validate(
@@ -232,11 +238,14 @@ class ConectServices {
           print(isValid);
           if (isValid.isRight()) {
             logger.d('Todo fine');
+            NavService.contextNav.read<HomeProvider>().updateElemnt(id: event.id, status: event.transaction.status);
+             CustomSnack.showMessage('Se realizo transacción');
           } else {
             await LocalStorage.getSaveCounter();
             logger.e('No COINCIDE');
           }
         }
+         CustomSnack.errorSnack( event.error.errorMsg.isNotEmpty? event.error.errorMsg : 'La operación fallo');
         logger.d(event);
 
         try {
@@ -245,6 +254,7 @@ class ConectServices {
         } catch (e) {
           logger.d(e);
         }
+        _update(id);
       });
     } catch (e) {
       await channel.shutdown();
@@ -306,5 +316,12 @@ class ConectServices {
         ],
       ),
     );
+  }
+
+ static _update(String id) async {
+    final resul = await ConectServices.getTransaction(id);
+    if (resul.transcion != null) {
+       NavService.contextNav.read<HomeProvider>().updateElemnt(id:id, status: resul.transcion!.status!);
+    }
   }
 }

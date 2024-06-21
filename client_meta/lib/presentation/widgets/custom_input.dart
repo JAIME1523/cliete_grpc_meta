@@ -35,10 +35,10 @@ class CustomInputField extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     return Column(
       children: [
-        TextFormField(
+        TextField(
           //scrollPadding: scrollPadding,
           onChanged: onChange,
-            //onSubmitted: onSubmitted,
+            onSubmitted: onSubmitted,
             controller: controller,
             inputFormatters: inputFormatters,
             keyboardType: keyboardType,

@@ -3,6 +3,7 @@ import 'package:client_meta/presentation/widgets/custom_snack.dart';
 import 'package:client_meta/presentation/widgets/info_trancaction.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:server_grpc/server_grpc.dart';
 
 import '../data/service/conect_service.dart';
 
@@ -58,6 +59,8 @@ class TransactionView extends StatelessWidget {
               if (resp.isNotEmpty) {
                 final resul = await ConectServices.getTransaction(resp);
                 if (resul.transcion != null) {
+                 if( resul.transcion!.status != null)provider.updateElemnt(id:resp, status: resul.transcion!.status!);
+                  
                   InfoTranction.showTran(resul.transcion!);
                   return;
                 }
@@ -95,6 +98,8 @@ class TransactionView extends StatelessWidget {
             },
             child: const Text('transacciones registradas'),
           ),
+
+  
       ],
     );
   }
