@@ -41,10 +41,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
   saveInfo() async {
-    await LocalStorage.setInt(
-        PreferencesInt.port, int.tryParse(porgController.text) ?? 8080);
-    await LocalStorage.setString(
-        PreferencesString.ipAddres, ipgController.text);
+    await LocalStorage.setInt(PreferencesInt.port, int.tryParse(porgController.text) ?? 8080);
+    await LocalStorage.setString(PreferencesString.ipAddres, ipgController.text);
   }
 
   alertInsert() {

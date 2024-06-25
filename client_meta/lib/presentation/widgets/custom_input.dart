@@ -45,6 +45,7 @@ class CustomInputField extends StatelessWidget {
             keyboardType: keyboardType,
             maxLength: maxLength,
             maxLines: maxLines,
+            
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: colors.primary, width: 1.5),

@@ -168,11 +168,12 @@ class ConectServices {
 
         print(isValid);
         if (isValid.isRight()) {
-          if (response.id.isNotEmpty) {
+          logger.d('Todo fine');
+
+          if (response.status.name.isEmpty) {
             return CustomSnack.showMessage(response.status.name);
           }
-          CustomSnack.errorSnack(response.error.errorMsg);
-          logger.d('Todo fine');
+       return   CustomSnack.errorSnack(response.error.errorMsg);
         } else {
           logger.e('No COINCIDE');
           await LocalStorage.getSaveCounter();
