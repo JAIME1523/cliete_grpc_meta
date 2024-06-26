@@ -14,6 +14,7 @@ class TransactionGRpcModel extends DataDbM {
   String? arqc;
   String? maskPan;
   String? authorizationNumber;
+  String? stan;
 
   TransactionGRpcModel(
       {
@@ -24,7 +25,9 @@ class TransactionGRpcModel extends DataDbM {
       this.referenceNumber,
       this.arqc,
       this.maskPan,
-      this.authorizationNumber});
+      this.authorizationNumber,
+      this.stan
+      });
 
   TransactionGRpcModel copyWith({
     TransactionStatus? status,
@@ -35,6 +38,7 @@ class TransactionGRpcModel extends DataDbM {
     String? idProtoTransaction,
     String? maskPan,
     String? authorizationNumber,
+    String? stan
   }) =>
       TransactionGRpcModel(
           status              : status ?? this.status,
@@ -44,7 +48,9 @@ class TransactionGRpcModel extends DataDbM {
           arqc                : arqc ?? this.arqc,
           maskPan             : maskPan ?? maskPan,
           idProtoTransaction             : idProtoTransaction ?? this.idProtoTransaction,
-          authorizationNumber : authorizationNumber ?? this.authorizationNumber);
+          authorizationNumber : authorizationNumber ?? this.authorizationNumber,
+          stan                : stan ?? this.stan 
+          );
 
   factory TransactionGRpcModel.fromJson(String str) =>
       TransactionGRpcModel.fromMap(json.decode(str));
@@ -64,6 +70,7 @@ class TransactionGRpcModel extends DataDbM {
         maskPan             : json["maskPan"],
         idProtoTransaction             : json["idProto"],
         authorizationNumber : json["authorizationNumber"],
+        stan                : json['stan']
       );
   factory TransactionGRpcModel.fromMapByGrpc(Map<String, dynamic> json) {
     return TransactionGRpcModel(
@@ -76,6 +83,8 @@ class TransactionGRpcModel extends DataDbM {
       arqc                : json["5"],
       maskPan             : json["6"],
       authorizationNumber : json["7"],
+      stan                : json["8"],
+
     );
   }
   @override
@@ -88,7 +97,8 @@ class TransactionGRpcModel extends DataDbM {
         "referenceNumber"     : referenceNumber,
         "arqc"                : arqc,
         "maskPan"             : maskPan,
-        "authorizationNumber" : authorizationNumber
+        "authorizationNumber" : authorizationNumber,
+        "stan"                : stan
       };
   Map<String, dynamic> toMapGrpc() => {
         //"transactionId": transactionId,
@@ -99,7 +109,9 @@ class TransactionGRpcModel extends DataDbM {
         if (referenceNumber != null)       "4": referenceNumber,
         if (arqc != null)                  "5": arqc,
         if (maskPan != null)               "6": maskPan,
-        if (authorizationNumber != null)   "7": authorizationNumber
+        if (authorizationNumber != null)   "7": authorizationNumber,
+        if (stan != null)   "8": stan
+
       };
 }
 

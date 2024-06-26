@@ -26,6 +26,7 @@ class Transaction extends $pb.GeneratedMessage {
     $core.String? arqc,
     $core.String? maskPan,
     $core.String? authorizationNumber,
+    $core.String? stan,
   }) {
     final $result = create();
     if (status != null) {
@@ -49,6 +50,9 @@ class Transaction extends $pb.GeneratedMessage {
     if (authorizationNumber != null) {
       $result.authorizationNumber = authorizationNumber;
     }
+    if (stan != null) {
+      $result.stan = stan;
+    }
     return $result;
   }
   Transaction._() : super();
@@ -63,6 +67,7 @@ class Transaction extends $pb.GeneratedMessage {
     ..aOS(5, _omitFieldNames ? '' : 'arqc')
     ..aOS(6, _omitFieldNames ? '' : 'maskPan', protoName: 'maskPan')
     ..aOS(7, _omitFieldNames ? '' : 'authorizationNumber', protoName: 'authorizationNumber')
+    ..aOS(8, _omitFieldNames ? '' : 'stan')
     ..hasRequiredFields = false
   ;
 
@@ -149,6 +154,15 @@ class Transaction extends $pb.GeneratedMessage {
   $core.bool hasAuthorizationNumber() => $_has(6);
   @$pb.TagNumber(7)
   void clearAuthorizationNumber() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.String get stan => $_getSZ(7);
+  @$pb.TagNumber(8)
+  set stan($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasStan() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearStan() => clearField(8);
 }
 
 

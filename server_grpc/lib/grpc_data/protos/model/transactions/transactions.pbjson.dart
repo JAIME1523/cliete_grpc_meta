@@ -53,12 +53,14 @@ const Transaction$json = {
     {'1': 'arqc', '3': 5, '4': 1, '5': 9, '9': 1, '10': 'arqc', '17': true},
     {'1': 'maskPan', '3': 6, '4': 1, '5': 9, '9': 2, '10': 'maskPan', '17': true},
     {'1': 'authorizationNumber', '3': 7, '4': 1, '5': 9, '9': 3, '10': 'authorizationNumber', '17': true},
+    {'1': 'stan', '3': 8, '4': 1, '5': 9, '9': 4, '10': 'stan', '17': true},
   ],
   '8': [
     {'1': '_referenceNumber'},
     {'1': '_arqc'},
     {'1': '_maskPan'},
     {'1': '_authorizationNumber'},
+    {'1': '_stan'},
   ],
 };
 
@@ -69,6 +71,7 @@ final $typed_data.Uint8List transactionDescriptor = $convert.base64Decode(
     'dGlvblR5cGVSBHR5cGUSFgoGYW1vdW50GAMgASgFUgZhbW91bnQSLQoPcmVmZXJlbmNlTnVtYm'
     'VyGAQgASgJSABSD3JlZmVyZW5jZU51bWJlcogBARIXCgRhcnFjGAUgASgJSAFSBGFycWOIAQES'
     'HQoHbWFza1BhbhgGIAEoCUgCUgdtYXNrUGFuiAEBEjUKE2F1dGhvcml6YXRpb25OdW1iZXIYBy'
-    'ABKAlIA1ITYXV0aG9yaXphdGlvbk51bWJlcogBAUISChBfcmVmZXJlbmNlTnVtYmVyQgcKBV9h'
-    'cnFjQgoKCF9tYXNrUGFuQhYKFF9hdXRob3JpemF0aW9uTnVtYmVy');
+    'ABKAlIA1ITYXV0aG9yaXphdGlvbk51bWJlcogBARIXCgRzdGFuGAggASgJSARSBHN0YW6IAQFC'
+    'EgoQX3JlZmVyZW5jZU51bWJlckIHCgVfYXJxY0IKCghfbWFza1BhbkIWChRfYXV0aG9yaXphdG'
+    'lvbk51bWJlckIHCgVfc3Rhbg==');
 

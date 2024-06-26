@@ -1001,6 +1001,182 @@ class GetStatusResponse extends $pb.GeneratedMessage {
   AuthData ensureAuthData() => $_ensure(3);
 }
 
+class CancelRequest extends $pb.GeneratedMessage {
+  factory CancelRequest({
+    $core.String? stan,
+    $core.String? origin,
+    AuthData? authData,
+  }) {
+    final $result = create();
+    if (stan != null) {
+      $result.stan = stan;
+    }
+    if (origin != null) {
+      $result.origin = origin;
+    }
+    if (authData != null) {
+      $result.authData = authData;
+    }
+    return $result;
+  }
+  CancelRequest._() : super();
+  factory CancelRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CancelRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CancelRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'stan')
+    ..aOS(2, _omitFieldNames ? '' : 'origin')
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  CancelRequest clone() => CancelRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  CancelRequest copyWith(void Function(CancelRequest) updates) => super.copyWith((message) => updates(message as CancelRequest)) as CancelRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static CancelRequest create() => CancelRequest._();
+  CancelRequest createEmptyInstance() => create();
+  static $pb.PbList<CancelRequest> createRepeated() => $pb.PbList<CancelRequest>();
+  @$core.pragma('dart2js:noInline')
+  static CancelRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CancelRequest>(create);
+  static CancelRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get stan => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set stan($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasStan() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearStan() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get origin => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set origin($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasOrigin() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearOrigin() => clearField(2);
+
+  @$pb.TagNumber(3)
+  AuthData get authData => $_getN(2);
+  @$pb.TagNumber(3)
+  set authData(AuthData v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasAuthData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearAuthData() => clearField(3);
+  @$pb.TagNumber(3)
+  AuthData ensureAuthData() => $_ensure(2);
+}
+
+class CancelResponse extends $pb.GeneratedMessage {
+  factory CancelResponse({
+    $core.String? id,
+    $0.TransactionStatus? status,
+    MetaError? error,
+    AuthData? authData,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (status != null) {
+      $result.status = status;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    if (authData != null) {
+      $result.authData = authData;
+    }
+    return $result;
+  }
+  CancelResponse._() : super();
+  factory CancelResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CancelResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CancelResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..e<$0.TransactionStatus>(2, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: $0.TransactionStatus.Pending, valueOf: $0.TransactionStatus.valueOf, enumValues: $0.TransactionStatus.values)
+    ..aOM<MetaError>(3, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(4, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  CancelResponse clone() => CancelResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  CancelResponse copyWith(void Function(CancelResponse) updates) => super.copyWith((message) => updates(message as CancelResponse)) as CancelResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static CancelResponse create() => CancelResponse._();
+  CancelResponse createEmptyInstance() => create();
+  static $pb.PbList<CancelResponse> createRepeated() => $pb.PbList<CancelResponse>();
+  @$core.pragma('dart2js:noInline')
+  static CancelResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CancelResponse>(create);
+  static CancelResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $0.TransactionStatus get status => $_getN(1);
+  @$pb.TagNumber(2)
+  set status($0.TransactionStatus v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasStatus() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearStatus() => clearField(2);
+
+  @$pb.TagNumber(3)
+  MetaError get error => $_getN(2);
+  @$pb.TagNumber(3)
+  set error(MetaError v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasError() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearError() => clearField(3);
+  @$pb.TagNumber(3)
+  MetaError ensureError() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  AuthData get authData => $_getN(3);
+  @$pb.TagNumber(4)
+  set authData(AuthData v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAuthData() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAuthData() => clearField(4);
+  @$pb.TagNumber(4)
+  AuthData ensureAuthData() => $_ensure(3);
+}
+
 
 const _omitFieldNames = $core.bool.fromEnvironment('protobuf.omit_field_names');
 const _omitMessageNames = $core.bool.fromEnvironment('protobuf.omit_message_names');

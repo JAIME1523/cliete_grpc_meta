@@ -74,7 +74,6 @@ class ConectServices {
           final tran =
               TransactionGRpcModel.fromMapByGrpc(transac.writeToJsonMap())
                   .copyWith(idProtoTransaction: response.id);
-
           return ResponseModel(status: true, info: 'Fine', transcion: tran);
 
           /* await channel.shutdown();
@@ -170,7 +169,7 @@ class ConectServices {
         if (isValid.isRight()) {
           logger.d('Todo fine');
 
-          if (response.status.name.isEmpty) {
+          if (response.status.name.isNotEmpty) {
             return CustomSnack.showMessage(response.status.name);
           }
        return   CustomSnack.errorSnack(response.error.errorMsg);
@@ -343,4 +342,48 @@ class ConectServices {
           .updateElemnt(id: id, status: resul.transcion!.status!);
     }
   }
+
+
+    static Future<ResponseModel> cancelTransaction(String stan) async {
+    final channel = initChane();
+    final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.stanCounte, stan: stan);
+    logger.f('esta es ladata que madno$auth');
+    try {
+      final metaApp = MetaAppClient(channel,options: CallOptions());
+      final response = await metaApp.cancelTransaction(CancelRequest (
+        stan: stan,
+        authData: auth,
+        origin: 'Desde web',
+      ));
+      await channel.shutdown();
+
+      if (response.error.errorMsg.isEmpty) {
+        logger.d('La repsuesta no tine error');
+
+        final isValid = await AtuhDataSerice.validate(
+            typeAuth: TypeAuth.counterStatus,
+            authData: response.authData,
+            status: response.status);
+
+        if (isValid.isRight()) {
+          logger.d('Todo fine');
+          
+          return ResponseModel(
+              status: true, info: 'Se encontro');
+        } else {
+          await LocalStorage.getSaveCounter();
+          logger.e('No COINCIDE');
+          return ResponseModel(
+              status: false, info: 'Error al validar informacion');
+        }
+      }
+      logger.d(response);
+
+      return ResponseModel(status: false, info: response.error.errorMsg);
+    } catch (e) {
+      await channel.shutdown();
+      return ResponseModel(status: false, info: e.toString());
+    }
+  }
+
 }

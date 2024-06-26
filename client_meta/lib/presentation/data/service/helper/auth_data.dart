@@ -9,33 +9,35 @@ class AtuhDataSerice {
   static final logger = getLogger();
 
   static Future<Either<AthFailure, bool>> validate(
-      {required TypeAuth typeAuth, required AuthData authData, String? amount, TransactionStatus? status}) async {
+      {required TypeAuth typeAuth, required AuthData authData, String? amount, TransactionStatus? status, String? stan}) async {
     final myCouter = await LocalStorage.getSaveCounter();
     logger.f('es tipo de dato $typeAuth');
     //if (myCouter != authData.counter) return left(const AthFailure('No coinciden el counter', status: false, errorCode: MetaErrorCode.InvalidCounter));
-    final resp = await _generatePaylod(typeAuth, counter: myCouter.toString(), amount: amount, status: status);
+    final resp = await _generatePaylod(typeAuth, counter: myCouter.toString(), amount: amount, status: status, stan: stan);
     if (await PayloadGenerateService.validatePlayload(receivedPayload: authData.mac, myPayload: resp, )) {
       return right(true);
     }
     return left(const AthFailure('No se puede autenticar ',status: false, errorCode: MetaErrorCode.AuthError));
   }
 
-  static Future<AuthData> generateNewAuth(TypeAuth typeAuth,{String? amount,TransactionStatus? status}) async {
+  static Future<AuthData> generateNewAuth(TypeAuth typeAuth,{String? amount,TransactionStatus? status,String? stan}) async {
 
     final myCouter = await LocalStorage.getSaveCounter();
     logger.f('este es el couter $myCouter');
-    final payload =  await _generatePaylod(typeAuth, counter: '$myCouter', amount: amount, status: status);
+    final payload =  await _generatePaylod(typeAuth, counter: '$myCouter', amount: amount, status: status, stan: stan);
     print('******************************');
 
     print(payload);
-    final auth = AuthData(counter:myCouter, mac:payload, macLabel:  '${status??amount??''}$myCouter' );
+    final auth = AuthData(counter:myCouter, mac:payload, macLabel:  '${status??amount??stan??''}$myCouter' );
     return auth;
   }
 
   static Future<List<int>> _generatePaylod(TypeAuth typeAuth,
       {required String counter,
       String? amount ,
-      TransactionStatus? status}) async {
+      TransactionStatus? status,
+      String? stan
+      }) async {
     switch (typeAuth) {
       case TypeAuth.counter:
         return await PayloadGenerateService.counterPayloGener(counter: counter);
@@ -45,8 +47,11 @@ class AtuhDataSerice {
       case TypeAuth.counterStatus:
         return await PayloadGenerateService.counterStatusPaylo(
             counter: counter, status: status!);
+      case TypeAuth.stanCounte:
+               return await PayloadGenerateService.stanCounterPayloGener(stan: stan!, counter:counter );
+
     }
   }
 }
 
-enum TypeAuth { counter, counterAmount, counterStatus }
+enum TypeAuth { counter, counterAmount, counterStatus, stanCounte }

@@ -31,7 +31,7 @@ class HomeProvider extends ChangeNotifier {
     isCanSave = false;
   }
 
-  updateElemnt({required String id, required TransactionStatus status}) {
+    updateElemnt({required String id, required TransactionStatus status}) {
     for (var i = 0; i < transacintionSave.length; i++) {
       final tra = transacintionSave[i];
       if (tra.idProtoTransaction == id) {
@@ -114,6 +114,7 @@ class HomeProvider extends ChangeNotifier {
 
     final resp = await ConectServices.insertTransaction(newmont);
     if (resp.transcion != null) {
+      resp.transcion!.stan = LocalStorage.getInt(PreferencesInt.counter).toString();
       transacintionSave.add(resp.transcion!);
     }
     isLoading = false;

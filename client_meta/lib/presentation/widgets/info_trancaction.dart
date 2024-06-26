@@ -24,7 +24,6 @@ class InfoTranction {
                   child: Column(
                     children: [
                       ...List.generate(transacions.length, (index) {
-                        
                         final transacion = transacions[index];
                         return Container(
                           width: size.width * 0.7,
@@ -48,13 +47,21 @@ class InfoTranction {
                                       info: transacion.status != null
                                           ? transacion.status!.name
                                           : '',
-                                infoStyle: styleText.titleMedium!.copyWith(
-                          color: transacion.status!.value == 4
-                              ? Colors.green
-                              : transacion.status!.value == 0
-                                  ? Colors.blue
-                                  : Colors.red),
+                                      infoStyle: styleText.titleMedium!
+                                          .copyWith(
+                                              color: transacion.status!.value ==
+                                                      4
+                                                  ? Colors.green
+                                                  : transacion.status!.value ==
+                                                          0
+                                                      ? Colors.blue
+                                                      : Colors.red),
                                     ),
+                                    if (transacion.stan != null)
+                                      _ColumnInfo(
+                                        title: 'Stan',
+                                        info: transacion.stan ?? '',
+                                      ),
                                     if (transacion.idProtoTransaction != null)
                                       ElevatedButton(
                                           onPressed: () async {
@@ -63,7 +70,16 @@ class InfoTranction {
                                                     .idProtoTransaction!);
                                             NavService.pop();
                                           },
-                                          child: const Text('Inicar cobro'))
+                                          child: const Text('Inicar cobro')),
+
+                                           if (transacion.stan != null )
+                                      ElevatedButton(
+                                          onPressed: () async {
+                                            await ConectServices
+                                                .cancelTransaction(transacion.stan!);
+                                            NavService.pop();
+                                          },
+                                          child: const Text('Cancelar'))
                                   ],
                                 ),
                               )),

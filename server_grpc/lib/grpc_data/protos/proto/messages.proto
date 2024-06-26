@@ -88,3 +88,15 @@ message GetStatusResponse{
 }
 
 
+message CancelRequest{
+    string stan = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message CancelResponse{
+    optional string id = 1;
+    optional TransactionStatus status = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}

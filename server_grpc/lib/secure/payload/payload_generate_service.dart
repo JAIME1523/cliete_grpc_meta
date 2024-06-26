@@ -54,6 +54,17 @@ print(listEquals(receivedPayload, myPayload));
     return payloadHmacSha256;
   }
 
+  static Future<List<int>> stanCounterPayloGener({required String counter, required String stan}) async {
+  
+    final newCounter = _padd(counter);
+    final newStan = _padd(stan);
+    print('$newStan$newCounter');
+    final exa = _paHexToBytes('$newStan$newCounter');
+     final payloadHmacSha256 = await _generatedMacPayload(exa);
+
+    return payloadHmacSha256; 
+  }
+  
   static String _paddRight(String name) {
     String newData;
     var digits = name.split('');

@@ -22,4 +22,5 @@ message Transaction{
     optional string arqc = 5;
     optional string maskPan = 6;
     optional string authorizationNumber = 7;
+    optional string stan = 8;
 }

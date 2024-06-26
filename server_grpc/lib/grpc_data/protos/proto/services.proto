@@ -11,5 +11,6 @@ service MetaApp {
   rpc StartTransaction (StartTransactionRequest) returns (stream TransactionNotification) {}
   rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}
   rpc GetTransaction (GetTransactionRequest) returns (GetTransactionResponse) {}
+  rpc CancelTransaction (CancelRequest) returns (CancelResponse) {}
   rpc TestC(RequestClientInfo) returns (TestConnectionReesponse){}
 }
