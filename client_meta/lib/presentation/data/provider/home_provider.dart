@@ -16,6 +16,7 @@ class HomeProvider extends ChangeNotifier {
   bool _isEditing = false;
   bool _isCanSave = false;
   bool _activeButon = false;
+  bool _isPrcessTransac = false;
 
   List<TransactionGRpcModel> transacintionSave = [];
   final _formKey = GlobalKey<FormState>();
@@ -31,11 +32,13 @@ class HomeProvider extends ChangeNotifier {
     isCanSave = false;
   }
 
-    updateElemnt({required String id, required TransactionStatus status}) {
+    updateElemnt({required String id, required TransactionStatus status, String? stan}) {
     for (var i = 0; i < transacintionSave.length; i++) {
       final tra = transacintionSave[i];
       if (tra.idProtoTransaction == id) {
         transacintionSave[i] = transacintionSave[i].copyWith(status: status);
+        transacintionSave[i] = transacintionSave[i].copyWith(stan: stan);
+
       }
     }
   }
@@ -114,7 +117,6 @@ class HomeProvider extends ChangeNotifier {
 
     final resp = await ConectServices.insertTransaction(newmont);
     if (resp.transcion != null) {
-      resp.transcion!.stan = LocalStorage.getInt(PreferencesInt.counter).toString();
       transacintionSave.add(resp.transcion!);
     }
     isLoading = false;
@@ -163,5 +165,11 @@ class HomeProvider extends ChangeNotifier {
   set isCanSave(bool value) {
     _isCanSave = value;
     notifyListeners();
+  }
+
+  bool get isPrcessTransac => _isPrcessTransac;
+  set isPrcessTransac(bool value) {
+  _isPrcessTransac = value;
+  notifyListeners();
   }
 }

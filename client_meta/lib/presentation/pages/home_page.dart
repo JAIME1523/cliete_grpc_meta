@@ -1,5 +1,6 @@
 import 'package:client_meta/presentation/views/drawer_view.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import 'package:client_meta/presentation/views/views.dart';
@@ -23,17 +24,29 @@ class HomePage extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
-              child: provider.isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Column(
-                      children: [
-                        provider.isMatch
-                            ? const TransactionView()
-                            : const MatchView()
-                      ],
-                    )),
+              child: provider.isPrcessTransac
+                  ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                          child: Lottie.asset(
+                            'assets/json/progress_bar 2.json'),
+                        ),
+                        Text('Procesando')
+                    ],
+                  )
+                  : provider.isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Column(
+                          children: [
+                            provider.isMatch
+                                ? const TransactionView()
+                                : const MatchView()
+                          ],
+                        )),
         ),
       ),
     );

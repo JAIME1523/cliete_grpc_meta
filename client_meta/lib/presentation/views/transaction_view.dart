@@ -97,19 +97,9 @@ class TransactionView extends StatelessWidget {
               InfoTranction.showLisTrac(provider.transacintionSave);
             },
             child: const Text('transacciones registradas'),
-          ),
-
-/*           ElevatedButton(
-            onPressed: () async {
-              UtilsAmont.validtesAmont('30.5');
-              UtilsAmont.validtesAmont('30.');
-              UtilsAmont.validtesAmont('30.5000');
-              UtilsAmont.validtesAmont('30.0004');
+          )
 
 
-            },
-            child: const Text('exprte'),
-          ), */
 
   
       ],

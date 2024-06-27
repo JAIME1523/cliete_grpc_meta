@@ -209,12 +209,14 @@ class ConectServices {
   }
 
   static Future startTransaccion(String id) async {
+    final prov =  NavService.contextNav.read<HomeProvider>();
     final channel = initChane();
     logger.d(metaSrteam);
     if (metaSrteam != null) {
       logger.d('******* se cancela el stream ');
     }
     bool isCancel = true;
+    prov.isPrcessTransac =  true;
     try {
       final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.counter);
       logger.f('esta es ladata que madno$auth');
@@ -226,6 +228,8 @@ class ConectServices {
       ));
       Future.delayed(const Duration(seconds: 90)).then((value) async {
         if (isCancel) {
+        prov.isPrcessTransac =  false;
+
           CustomSnack.errorSnack('Tiempo de espera excedido ');
           await channel.shutdown().catchError((error) {});
           metaSrteam!.cancel().catchError((val) {});
@@ -235,18 +239,19 @@ class ConectServices {
       metaSrteam!.asBroadcastStream().listen((event) async {
         isCancel = false;
         logger.f(event);
-        if (event.id.isNotEmpty) {
+        prov.isPrcessTransac =  false;
+        if (!event.hasError()) {
           final isValid = await AtuhDataSerice.validate(
               typeAuth: TypeAuth.counterStatus,
               authData: event.authData,
               status: event.transaction.status);
           print(isValid);
           if (isValid.isRight()) {
+            CustomSnack.showMessage('Se realizo transa.cción', backgroundColor: Colors.green);
             logger.d('Todo fine');
             NavService.contextNav
                 .read<HomeProvider>()
-                .updateElemnt(id: event.id, status: event.transaction.status);
-            CustomSnack.showMessage('Se realizo transacción');
+                .updateElemnt(id: id, status: event.transaction.status ,stan: event.transaction.stan );
             return;
           } else {
             await LocalStorage.getSaveCounter();
@@ -266,13 +271,19 @@ class ConectServices {
         try {
           await channel.shutdown().catchError((error) {});
           metaSrteam!.cancel().catchError((val) {});
+        prov.isPrcessTransac =  false;
+
         } catch (e) {
           logger.d(e);
+        prov.isPrcessTransac =  false;
+
         }
         _update(id);
       });
     } catch (e) {
       isCancel = false;
+        prov.isPrcessTransac =  false;
+
       await channel.shutdown();
       await metaSrteam!.cancel();
     }
