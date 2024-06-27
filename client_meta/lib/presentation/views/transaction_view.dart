@@ -99,7 +99,7 @@ class TransactionView extends StatelessWidget {
             child: const Text('transacciones registradas'),
           ),
 
-          ElevatedButton(
+      /*     ElevatedButton(
             onPressed: () async {
               UtilsAmont.validtesAmont('30.5');
               UtilsAmont.validtesAmont('30.');
@@ -109,7 +109,7 @@ class TransactionView extends StatelessWidget {
 
             },
             child: const Text('exprte'),
-          ),
+          ), */
 
   
       ],

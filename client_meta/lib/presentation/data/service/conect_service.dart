@@ -170,7 +170,7 @@ class ConectServices {
         if (isValid.isRight()) {
           logger.d('Todo fine');
 
-          if (response.status.name.isEmpty) {
+          if (response.status.name.isNotEmpty) {
             return CustomSnack.showMessage(response.status.name);
           }
        return   CustomSnack.errorSnack(response.error.errorMsg);

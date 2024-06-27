@@ -24,49 +24,61 @@ class InfoTranction {
                   child: Column(
                     children: [
                       ...List.generate(transacions.length, (index) {
-                        
                         final transacion = transacions[index];
-                        return Container(
-                          width: size.width * 0.7,
-                          child: Card(
-                              color: colors.secondaryContainer,
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  children: [
-                                    _ColumnInfo(
-                                      title: 'Id',
-                                      info: transacion.idProtoTransaction ?? '',
-                                    ),
-                                    _ColumnInfo(
-                                      title: 'Monto',
-                                      info: UtilsAmont.amontCustom(
-                                          transacion.amount.toString()),
-                                    ),
-                                    _ColumnInfo(
-                                      title: 'Estado',
-                                      info: transacion.status != null
-                                          ? transacion.status!.name
-                                          : '',
-                                infoStyle: styleText.titleMedium!.copyWith(
-                          color: transacion.status!.value == 4
-                              ? Colors.green
-                              : transacion.status!.value == 0
-                                  ? Colors.blue
-                                  : Colors.red),
-                                    ),
-                                    if (transacion.idProtoTransaction != null)
-                                      ElevatedButton(
-                                          onPressed: () async {
-                                            await ConectServices
-                                                .startTransaccion(transacion
-                                                    .idProtoTransaction!);
-                                            NavService.pop();
-                                          },
-                                          child: const Text('Inicar cobro'))
-                                  ],
-                                ),
-                              )),
+                        return Banner(
+                          location: BannerLocation.topEnd,
+                          color: colors.onPrimaryContainer,
+                          message: transacion.status != null
+                              ? transacion.status!.name
+                              : '',
+                          child: Container(
+                            width: size.width * 0.7,
+                            child: Card(
+                                color: colors.secondaryContainer,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    children: [
+                                      _ColumnInfo(
+                                        title: 'Id',
+                                        info:
+                                            transacion.idProtoTransaction ?? '',
+                                      ),
+                                      _ColumnInfo(
+                                        title: 'Monto',
+                                        info: UtilsAmont.amontCustom(
+                                            transacion.amount.toString()),
+                                      ),
+                                      _ColumnInfo(
+                                        title: 'Estado',
+                                        info: transacion.status != null
+                                            ? transacion.status!.name
+                                            : '',
+                                        infoStyle: styleText.titleMedium!
+                                            .copyWith(
+                                                color:
+                                                    transacion.status!.value ==
+                                                            4
+                                                        ? Colors.green
+                                                        : transacion.status!
+                                                                    .value ==
+                                                                0
+                                                            ? Colors.blue
+                                                            : Colors.red),
+                                      ),
+                                      if (transacion.idProtoTransaction != null)
+                                        ElevatedButton(
+                                            onPressed: () async {
+                                              await ConectServices
+                                                  .startTransaccion(transacion
+                                                      .idProtoTransaction!);
+                                              NavService.pop();
+                                            },
+                                            child: const Text('Inicar cobro'))
+                                    ],
+                                  ),
+                                )),
+                          ),
                         );
                       })
                     ],
