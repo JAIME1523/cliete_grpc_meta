@@ -1,4 +1,5 @@
 import 'package:client_meta/presentation/views/drawer_view.dart';
+import 'package:client_meta/presentation/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -25,17 +26,7 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SingleChildScrollView(
               child: provider.isPrcessTransac
-                  ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                          child: Lottie.asset(
-                            'assets/json/progress_bar 2.json'),
-                        ),
-                        Text('Procesando')
-                    ],
-                  )
+                  ? const _PregressTransaction()
                   : provider.isLoading
                       ? const Center(
                           child: CircularProgressIndicator(),
@@ -49,6 +40,33 @@ class HomePage extends StatelessWidget {
                         )),
         ),
       ),
+    );
+  }
+}
+
+class _PregressTransaction extends StatelessWidget {
+  const _PregressTransaction();
+
+  @override
+  Widget build(BuildContext context) {
+    final provider = Provider.of<HomeProvider>(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+            child: Lottie.asset(
+              'assets/json/progress_bar 2.json'),
+          ),
+          const Text('Procesando'),
+      if(provider.showButton)    PrimaryButton(title: 'Cancelar Proceso',
+          ischarge: true,
+          onPressed: ()async{
+            await provider.cancelProces();
+          },
+          )
+      ],
     );
   }
 }

@@ -9,12 +9,12 @@ class AtuhDataSerice {
   static final logger = getLogger();
 
   static Future<Either<AthFailure, bool>> validate(
-      {required TypeAuth typeAuth, required AuthData authData, String? amount, TransactionStatus? status, String? stan}) async {
+      {required TypeAuth typeAuth, required AuthData authData, String? amount, TransactionStatus? status, String? stan, bool? statusBool,}) async {
     final myCouter = await LocalStorage.getSaveCounter();
     logger.f('es tipo de dato $typeAuth');
     //if (myCouter != authData.counter) return left(const AthFailure('No coinciden el counter', status: false, errorCode: MetaErrorCode.InvalidCounter));
-    final resp = await _generatePaylod(typeAuth, counter: myCouter.toString(), amount: amount, status: status, stan: stan);
-    if (await PayloadGenerateService.validatePlayload(receivedPayload: authData.mac, myPayload: resp, )) {
+    final resp = await _generatePaylod(typeAuth, counter: myCouter.toString(), amount: amount, status: status, stan: stan, statusBool:  statusBool);
+    if (await PayloadGenerateService.validatePlayload(receivedPayload: authData.mac, myPayload: resp,)) {
       return right(true);
     }
     return left(const AthFailure('No se puede autenticar ',status: false, errorCode: MetaErrorCode.AuthError));
@@ -36,7 +36,8 @@ class AtuhDataSerice {
       {required String counter,
       String? amount ,
       TransactionStatus? status,
-      String? stan
+      String? stan,
+      bool? statusBool,
       }) async {
     switch (typeAuth) {
       case TypeAuth.counter:
@@ -50,8 +51,11 @@ class AtuhDataSerice {
       case TypeAuth.stanCounte:
                return await PayloadGenerateService.stanCounterPayloGener(stan: stan!, counter:counter );
 
+      case TypeAuth.boolCounter:
+                      return await PayloadGenerateService.statusBoolPaylo(counter:counter, statusBool:statusBool! );
+
     }
   }
 }
 
-enum TypeAuth { counter, counterAmount, counterStatus, stanCounte }
+enum TypeAuth { counter, counterAmount, counterStatus, stanCounte, boolCounter }

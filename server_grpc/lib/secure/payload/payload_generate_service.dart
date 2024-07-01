@@ -12,7 +12,13 @@ class PayloadGenerateService {
     var digest = hmacSha256.convert(bytes);
     return digest.bytes;
   }
-
+  static Future<List<int>>   statusBoolPaylo({required String counter, required bool statusBool}) async {
+    
+    String newCon = _padd(counter);
+    String newStatus = _padd(statusBool? '1': '0');
+    final payloadHmacSha256 = await  _generatedMacPayload(_paHexToBytes('$newCon$newStatus'));
+    return payloadHmacSha256;
+  }
 static  Future<bool> validatePlayload(
       {required List<int> receivedPayload,
       required List<int> myPayload}) async {
@@ -28,7 +34,7 @@ print(listEquals(receivedPayload, myPayload));
   }
 
   static Future<List<int>> counterAmountPayloGener({required String counter, required String amount}) async {
-    amount ='${double.parse(amount)}';
+   /*  amount ='${double.parse(amount)}';
     print('¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨¨');
     print(amount);
 
@@ -42,7 +48,19 @@ print(listEquals(receivedPayload, myPayload));
     print(exa);
     final payloadHmacSha256 = await _generatedMacPayload(exa);
 
-    return payloadHmacSha256;
+    return payloadHmacSha256; */
+      if(amount.length <= 2){
+    amount =  amount.padLeft(4,'0');
+    }
+    final newA = _padd(amount);
+    final newCoutenr = _padd(counter);
+  print('$newA');
+
+  final exa = _paHexToBytes('$newCoutenr$newA');
+    final payloadHmacSha256 = await _generatedMacPayload(exa);
+
+    return payloadHmacSha256; 
+
   }
 
   static Future<List<int>> counterStatusPaylo(

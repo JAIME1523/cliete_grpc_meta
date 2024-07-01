@@ -17,6 +17,8 @@ class HomeProvider extends ChangeNotifier {
   bool _isCanSave = false;
   bool _activeButon = false;
   bool _isPrcessTransac = false;
+  bool _showButton = false;
+
 
   List<TransactionGRpcModel> transacintionSave = [];
   final _formKey = GlobalKey<FormState>();
@@ -143,6 +145,17 @@ class HomeProvider extends ChangeNotifier {
     isLoading = false;
   }
 
+
+cancelProces()async{
+      final resp   =    await ConectServices.cancelProceesTransaction();
+    /*   if(!resp.status){
+        CustomSnack.errorSnack(resp.info);
+        return;
+      } */
+      
+
+}
+
   bool get isMatch => _isMatch;
   set isMatch(bool value) {
     _isMatch = value;
@@ -170,6 +183,11 @@ class HomeProvider extends ChangeNotifier {
   bool get isPrcessTransac => _isPrcessTransac;
   set isPrcessTransac(bool value) {
   _isPrcessTransac = value;
+  notifyListeners();
+  }
+  bool get showButton => _showButton;
+  set showButton(bool value) {
+  _showButton = value;
   notifyListeners();
   }
 }

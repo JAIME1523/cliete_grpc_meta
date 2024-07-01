@@ -1003,13 +1003,17 @@ class GetStatusResponse extends $pb.GeneratedMessage {
 
 class CancelRequest extends $pb.GeneratedMessage {
   factory CancelRequest({
-    $core.String? stan,
+    $core.String? id,
+    $0.Transaction? transaction,
     $core.String? origin,
     AuthData? authData,
   }) {
     final $result = create();
-    if (stan != null) {
-      $result.stan = stan;
+    if (id != null) {
+      $result.id = id;
+    }
+    if (transaction != null) {
+      $result.transaction = transaction;
     }
     if (origin != null) {
       $result.origin = origin;
@@ -1024,9 +1028,10 @@ class CancelRequest extends $pb.GeneratedMessage {
   factory CancelRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CancelRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'stan')
-    ..aOS(2, _omitFieldNames ? '' : 'origin')
-    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOM<$0.Transaction>(2, _omitFieldNames ? '' : 'transaction', subBuilder: $0.Transaction.create)
+    ..aOS(3, _omitFieldNames ? '' : 'origin')
+    ..aOM<AuthData>(4, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -1052,22 +1057,115 @@ class CancelRequest extends $pb.GeneratedMessage {
   static CancelRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get stan => $_getSZ(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set stan($core.String v) { $_setString(0, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasStan() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStan() => clearField(1);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get origin => $_getSZ(1);
+  $0.Transaction get transaction => $_getN(1);
   @$pb.TagNumber(2)
-  set origin($core.String v) { $_setString(1, v); }
+  set transaction($0.Transaction v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasOrigin() => $_has(1);
+  $core.bool hasTransaction() => $_has(1);
   @$pb.TagNumber(2)
-  void clearOrigin() => clearField(2);
+  void clearTransaction() => clearField(2);
+  @$pb.TagNumber(2)
+  $0.Transaction ensureTransaction() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  $core.String get origin => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set origin($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasOrigin() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearOrigin() => clearField(3);
+
+  @$pb.TagNumber(4)
+  AuthData get authData => $_getN(3);
+  @$pb.TagNumber(4)
+  set authData(AuthData v) { setField(4, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasAuthData() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearAuthData() => clearField(4);
+  @$pb.TagNumber(4)
+  AuthData ensureAuthData() => $_ensure(3);
+}
+
+class CancelNotification extends $pb.GeneratedMessage {
+  factory CancelNotification({
+    $0.TransactionStatus? status,
+    MetaError? error,
+    AuthData? authData,
+  }) {
+    final $result = create();
+    if (status != null) {
+      $result.status = status;
+    }
+    if (error != null) {
+      $result.error = error;
+    }
+    if (authData != null) {
+      $result.authData = authData;
+    }
+    return $result;
+  }
+  CancelNotification._() : super();
+  factory CancelNotification.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CancelNotification.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CancelNotification', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
+    ..e<$0.TransactionStatus>(1, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: $0.TransactionStatus.Pending, valueOf: $0.TransactionStatus.valueOf, enumValues: $0.TransactionStatus.values)
+    ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  CancelNotification clone() => CancelNotification()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  CancelNotification copyWith(void Function(CancelNotification) updates) => super.copyWith((message) => updates(message as CancelNotification)) as CancelNotification;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static CancelNotification create() => CancelNotification._();
+  CancelNotification createEmptyInstance() => create();
+  static $pb.PbList<CancelNotification> createRepeated() => $pb.PbList<CancelNotification>();
+  @$core.pragma('dart2js:noInline')
+  static CancelNotification getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CancelNotification>(create);
+  static CancelNotification? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $0.TransactionStatus get status => $_getN(0);
+  @$pb.TagNumber(1)
+  set status($0.TransactionStatus v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasStatus() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearStatus() => clearField(1);
+
+  @$pb.TagNumber(2)
+  MetaError get error => $_getN(1);
+  @$pb.TagNumber(2)
+  set error(MetaError v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasError() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  MetaError ensureError() => $_ensure(1);
 
   @$pb.TagNumber(3)
   AuthData get authData => $_getN(2);
@@ -1081,19 +1179,81 @@ class CancelRequest extends $pb.GeneratedMessage {
   AuthData ensureAuthData() => $_ensure(2);
 }
 
-class CancelResponse extends $pb.GeneratedMessage {
-  factory CancelResponse({
-    $core.String? id,
-    $0.TransactionStatus? status,
+class CancelProcessRequest extends $pb.GeneratedMessage {
+  factory CancelProcessRequest({
+    $core.String? origin,
+    AuthData? authData,
+  }) {
+    final $result = create();
+    if (origin != null) {
+      $result.origin = origin;
+    }
+    if (authData != null) {
+      $result.authData = authData;
+    }
+    return $result;
+  }
+  CancelProcessRequest._() : super();
+  factory CancelProcessRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CancelProcessRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CancelProcessRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'origin')
+    ..aOM<AuthData>(2, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  CancelProcessRequest clone() => CancelProcessRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  CancelProcessRequest copyWith(void Function(CancelProcessRequest) updates) => super.copyWith((message) => updates(message as CancelProcessRequest)) as CancelProcessRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static CancelProcessRequest create() => CancelProcessRequest._();
+  CancelProcessRequest createEmptyInstance() => create();
+  static $pb.PbList<CancelProcessRequest> createRepeated() => $pb.PbList<CancelProcessRequest>();
+  @$core.pragma('dart2js:noInline')
+  static CancelProcessRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CancelProcessRequest>(create);
+  static CancelProcessRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get origin => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set origin($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasOrigin() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearOrigin() => clearField(1);
+
+  @$pb.TagNumber(2)
+  AuthData get authData => $_getN(1);
+  @$pb.TagNumber(2)
+  set authData(AuthData v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAuthData() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAuthData() => clearField(2);
+  @$pb.TagNumber(2)
+  AuthData ensureAuthData() => $_ensure(1);
+}
+
+class CancelProcessResponse extends $pb.GeneratedMessage {
+  factory CancelProcessResponse({
+    $core.bool? successes,
     MetaError? error,
     AuthData? authData,
   }) {
     final $result = create();
-    if (id != null) {
-      $result.id = id;
-    }
-    if (status != null) {
-      $result.status = status;
+    if (successes != null) {
+      $result.successes = successes;
     }
     if (error != null) {
       $result.error = error;
@@ -1103,15 +1263,14 @@ class CancelResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  CancelResponse._() : super();
-  factory CancelResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CancelResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  CancelProcessResponse._() : super();
+  factory CancelProcessResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory CancelProcessResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CancelResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'id')
-    ..e<$0.TransactionStatus>(2, _omitFieldNames ? '' : 'status', $pb.PbFieldType.OE, defaultOrMaker: $0.TransactionStatus.Pending, valueOf: $0.TransactionStatus.valueOf, enumValues: $0.TransactionStatus.values)
-    ..aOM<MetaError>(3, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
-    ..aOM<AuthData>(4, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CancelProcessResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'agnostiko_meta'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'successes')
+    ..aOM<MetaError>(2, _omitFieldNames ? '' : 'error', subBuilder: MetaError.create)
+    ..aOM<AuthData>(3, _omitFieldNames ? '' : 'authData', protoName: 'authData', subBuilder: AuthData.create)
     ..hasRequiredFields = false
   ;
 
@@ -1119,62 +1278,53 @@ class CancelResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  CancelResponse clone() => CancelResponse()..mergeFromMessage(this);
+  CancelProcessResponse clone() => CancelProcessResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  CancelResponse copyWith(void Function(CancelResponse) updates) => super.copyWith((message) => updates(message as CancelResponse)) as CancelResponse;
+  CancelProcessResponse copyWith(void Function(CancelProcessResponse) updates) => super.copyWith((message) => updates(message as CancelProcessResponse)) as CancelProcessResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CancelResponse create() => CancelResponse._();
-  CancelResponse createEmptyInstance() => create();
-  static $pb.PbList<CancelResponse> createRepeated() => $pb.PbList<CancelResponse>();
+  static CancelProcessResponse create() => CancelProcessResponse._();
+  CancelProcessResponse createEmptyInstance() => create();
+  static $pb.PbList<CancelProcessResponse> createRepeated() => $pb.PbList<CancelProcessResponse>();
   @$core.pragma('dart2js:noInline')
-  static CancelResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CancelResponse>(create);
-  static CancelResponse? _defaultInstance;
+  static CancelProcessResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CancelProcessResponse>(create);
+  static CancelProcessResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get id => $_getSZ(0);
+  $core.bool get successes => $_getBF(0);
   @$pb.TagNumber(1)
-  set id($core.String v) { $_setString(0, v); }
+  set successes($core.bool v) { $_setBool(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
+  $core.bool hasSuccesses() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearSuccesses() => clearField(1);
 
   @$pb.TagNumber(2)
-  $0.TransactionStatus get status => $_getN(1);
+  MetaError get error => $_getN(1);
   @$pb.TagNumber(2)
-  set status($0.TransactionStatus v) { setField(2, v); }
+  set error(MetaError v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasStatus() => $_has(1);
+  $core.bool hasError() => $_has(1);
   @$pb.TagNumber(2)
-  void clearStatus() => clearField(2);
+  void clearError() => clearField(2);
+  @$pb.TagNumber(2)
+  MetaError ensureError() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  MetaError get error => $_getN(2);
+  AuthData get authData => $_getN(2);
   @$pb.TagNumber(3)
-  set error(MetaError v) { setField(3, v); }
+  set authData(AuthData v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasError() => $_has(2);
+  $core.bool hasAuthData() => $_has(2);
   @$pb.TagNumber(3)
-  void clearError() => clearField(3);
+  void clearAuthData() => clearField(3);
   @$pb.TagNumber(3)
-  MetaError ensureError() => $_ensure(2);
-
-  @$pb.TagNumber(4)
-  AuthData get authData => $_getN(3);
-  @$pb.TagNumber(4)
-  set authData(AuthData v) { setField(4, v); }
-  @$pb.TagNumber(4)
-  $core.bool hasAuthData() => $_has(3);
-  @$pb.TagNumber(4)
-  void clearAuthData() => clearField(4);
-  @$pb.TagNumber(4)
-  AuthData ensureAuthData() => $_ensure(3);
+  AuthData ensureAuthData() => $_ensure(2);
 }
 
 

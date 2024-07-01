@@ -260,39 +260,72 @@ final $typed_data.Uint8List getStatusResponseDescriptor = $convert.base64Decode(
 const CancelRequest$json = {
   '1': 'CancelRequest',
   '2': [
-    {'1': 'stan', '3': 1, '4': 1, '5': 9, '10': 'stan'},
-    {'1': 'origin', '3': 2, '4': 1, '5': 9, '10': 'origin'},
-    {'1': 'authData', '3': 3, '4': 1, '5': 11, '6': '.agnostiko_meta.AuthData', '10': 'authData'},
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'transaction', '3': 2, '4': 1, '5': 11, '6': '.agnostiko_meta.Transaction', '10': 'transaction'},
+    {'1': 'origin', '3': 3, '4': 1, '5': 9, '10': 'origin'},
+    {'1': 'authData', '3': 4, '4': 1, '5': 11, '6': '.agnostiko_meta.AuthData', '10': 'authData'},
   ],
 };
 
 /// Descriptor for `CancelRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List cancelRequestDescriptor = $convert.base64Decode(
-    'Cg1DYW5jZWxSZXF1ZXN0EhIKBHN0YW4YASABKAlSBHN0YW4SFgoGb3JpZ2luGAIgASgJUgZvcm'
-    'lnaW4SNAoIYXV0aERhdGEYAyABKAsyGC5hZ25vc3Rpa29fbWV0YS5BdXRoRGF0YVIIYXV0aERh'
-    'dGE=');
+    'Cg1DYW5jZWxSZXF1ZXN0Eg4KAmlkGAEgASgJUgJpZBI9Cgt0cmFuc2FjdGlvbhgCIAEoCzIbLm'
+    'Fnbm9zdGlrb19tZXRhLlRyYW5zYWN0aW9uUgt0cmFuc2FjdGlvbhIWCgZvcmlnaW4YAyABKAlS'
+    'Bm9yaWdpbhI0CghhdXRoRGF0YRgEIAEoCzIYLmFnbm9zdGlrb19tZXRhLkF1dGhEYXRhUghhdX'
+    'RoRGF0YQ==');
 
-@$core.Deprecated('Use cancelResponseDescriptor instead')
-const CancelResponse$json = {
-  '1': 'CancelResponse',
+@$core.Deprecated('Use cancelNotificationDescriptor instead')
+const CancelNotification$json = {
+  '1': 'CancelNotification',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 9, '9': 0, '10': 'id', '17': true},
-    {'1': 'status', '3': 2, '4': 1, '5': 14, '6': '.agnostiko_meta.TransactionStatus', '9': 1, '10': 'status', '17': true},
-    {'1': 'error', '3': 3, '4': 1, '5': 11, '6': '.agnostiko_meta.MetaError', '9': 2, '10': 'error', '17': true},
-    {'1': 'authData', '3': 4, '4': 1, '5': 11, '6': '.agnostiko_meta.AuthData', '10': 'authData'},
+    {'1': 'status', '3': 1, '4': 1, '5': 14, '6': '.agnostiko_meta.TransactionStatus', '9': 0, '10': 'status', '17': true},
+    {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.agnostiko_meta.MetaError', '9': 1, '10': 'error', '17': true},
+    {'1': 'authData', '3': 3, '4': 1, '5': 11, '6': '.agnostiko_meta.AuthData', '10': 'authData'},
   ],
   '8': [
-    {'1': '_id'},
     {'1': '_status'},
     {'1': '_error'},
   ],
 };
 
-/// Descriptor for `CancelResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List cancelResponseDescriptor = $convert.base64Decode(
-    'Cg5DYW5jZWxSZXNwb25zZRITCgJpZBgBIAEoCUgAUgJpZIgBARI+CgZzdGF0dXMYAiABKA4yIS'
-    '5hZ25vc3Rpa29fbWV0YS5UcmFuc2FjdGlvblN0YXR1c0gBUgZzdGF0dXOIAQESNAoFZXJyb3IY'
-    'AyABKAsyGS5hZ25vc3Rpa29fbWV0YS5NZXRhRXJyb3JIAlIFZXJyb3KIAQESNAoIYXV0aERhdG'
-    'EYBCABKAsyGC5hZ25vc3Rpa29fbWV0YS5BdXRoRGF0YVIIYXV0aERhdGFCBQoDX2lkQgkKB19z'
-    'dGF0dXNCCAoGX2Vycm9y');
+/// Descriptor for `CancelNotification`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List cancelNotificationDescriptor = $convert.base64Decode(
+    'ChJDYW5jZWxOb3RpZmljYXRpb24SPgoGc3RhdHVzGAEgASgOMiEuYWdub3N0aWtvX21ldGEuVH'
+    'JhbnNhY3Rpb25TdGF0dXNIAFIGc3RhdHVziAEBEjQKBWVycm9yGAIgASgLMhkuYWdub3N0aWtv'
+    'X21ldGEuTWV0YUVycm9ySAFSBWVycm9yiAEBEjQKCGF1dGhEYXRhGAMgASgLMhguYWdub3N0aW'
+    'tvX21ldGEuQXV0aERhdGFSCGF1dGhEYXRhQgkKB19zdGF0dXNCCAoGX2Vycm9y');
+
+@$core.Deprecated('Use cancelProcessRequestDescriptor instead')
+const CancelProcessRequest$json = {
+  '1': 'CancelProcessRequest',
+  '2': [
+    {'1': 'origin', '3': 1, '4': 1, '5': 9, '10': 'origin'},
+    {'1': 'authData', '3': 2, '4': 1, '5': 11, '6': '.agnostiko_meta.AuthData', '10': 'authData'},
+  ],
+};
+
+/// Descriptor for `CancelProcessRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List cancelProcessRequestDescriptor = $convert.base64Decode(
+    'ChRDYW5jZWxQcm9jZXNzUmVxdWVzdBIWCgZvcmlnaW4YASABKAlSBm9yaWdpbhI0CghhdXRoRG'
+    'F0YRgCIAEoCzIYLmFnbm9zdGlrb19tZXRhLkF1dGhEYXRhUghhdXRoRGF0YQ==');
+
+@$core.Deprecated('Use cancelProcessResponseDescriptor instead')
+const CancelProcessResponse$json = {
+  '1': 'CancelProcessResponse',
+  '2': [
+    {'1': 'successes', '3': 1, '4': 1, '5': 8, '10': 'successes'},
+    {'1': 'error', '3': 2, '4': 1, '5': 11, '6': '.agnostiko_meta.MetaError', '9': 0, '10': 'error', '17': true},
+    {'1': 'authData', '3': 3, '4': 1, '5': 11, '6': '.agnostiko_meta.AuthData', '10': 'authData'},
+  ],
+  '8': [
+    {'1': '_error'},
+  ],
+};
+
+/// Descriptor for `CancelProcessResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List cancelProcessResponseDescriptor = $convert.base64Decode(
+    'ChVDYW5jZWxQcm9jZXNzUmVzcG9uc2USHAoJc3VjY2Vzc2VzGAEgASgIUglzdWNjZXNzZXMSNA'
+    'oFZXJyb3IYAiABKAsyGS5hZ25vc3Rpa29fbWV0YS5NZXRhRXJyb3JIAFIFZXJyb3KIAQESNAoI'
+    'YXV0aERhdGEYAyABKAsyGC5hZ25vc3Rpa29fbWV0YS5BdXRoRGF0YVIIYXV0aERhdGFCCAoGX2'
+    'Vycm9y');
 

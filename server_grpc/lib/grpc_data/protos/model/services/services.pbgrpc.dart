@@ -42,10 +42,14 @@ class MetaAppClient extends $grpc.Client {
       '/agnostiko_meta.MetaApp/GetTransaction',
       ($0.GetTransactionRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetTransactionResponse.fromBuffer(value));
-  static final _$cancelTransaction = $grpc.ClientMethod<$0.CancelRequest, $0.CancelResponse>(
+  static final _$cancelTransaction = $grpc.ClientMethod<$0.CancelRequest, $0.CancelNotification>(
       '/agnostiko_meta.MetaApp/CancelTransaction',
       ($0.CancelRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.CancelResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => $0.CancelNotification.fromBuffer(value));
+  static final _$cancelProcessTransaction = $grpc.ClientMethod<$0.CancelProcessRequest, $0.CancelProcessResponse>(
+      '/agnostiko_meta.MetaApp/CancelProcessTransaction',
+      ($0.CancelProcessRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.CancelProcessResponse.fromBuffer(value));
   static final _$testC = $grpc.ClientMethod<$1.RequestClientInfo, $1.TestConnectionReesponse>(
       '/agnostiko_meta.MetaApp/TestC',
       ($1.RequestClientInfo value) => value.writeToBuffer(),
@@ -77,8 +81,12 @@ class MetaAppClient extends $grpc.Client {
     return $createUnaryCall(_$getTransaction, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.CancelResponse> cancelTransaction($0.CancelRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$cancelTransaction, request, options: options);
+  $grpc.ResponseStream<$0.CancelNotification> cancelTransaction($0.CancelRequest request, {$grpc.CallOptions? options}) {
+    return $createStreamingCall(_$cancelTransaction, $async.Stream.fromIterable([request]), options: options);
+  }
+
+  $grpc.ResponseFuture<$0.CancelProcessResponse> cancelProcessTransaction($0.CancelProcessRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$cancelProcessTransaction, request, options: options);
   }
 
   $grpc.ResponseFuture<$1.TestConnectionReesponse> testC($1.RequestClientInfo request, {$grpc.CallOptions? options}) {
@@ -126,13 +134,20 @@ abstract class MetaAppServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetTransactionRequest.fromBuffer(value),
         ($0.GetTransactionResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.CancelRequest, $0.CancelResponse>(
+    $addMethod($grpc.ServiceMethod<$0.CancelRequest, $0.CancelNotification>(
         'CancelTransaction',
         cancelTransaction_Pre,
         false,
-        false,
+        true,
         ($core.List<$core.int> value) => $0.CancelRequest.fromBuffer(value),
-        ($0.CancelResponse value) => value.writeToBuffer()));
+        ($0.CancelNotification value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.CancelProcessRequest, $0.CancelProcessResponse>(
+        'CancelProcessTransaction',
+        cancelProcessTransaction_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.CancelProcessRequest.fromBuffer(value),
+        ($0.CancelProcessResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.RequestClientInfo, $1.TestConnectionReesponse>(
         'TestC',
         testC_Pre,
@@ -162,8 +177,12 @@ abstract class MetaAppServiceBase extends $grpc.Service {
     return getTransaction(call, await request);
   }
 
-  $async.Future<$0.CancelResponse> cancelTransaction_Pre($grpc.ServiceCall call, $async.Future<$0.CancelRequest> request) async {
-    return cancelTransaction(call, await request);
+  $async.Stream<$0.CancelNotification> cancelTransaction_Pre($grpc.ServiceCall call, $async.Future<$0.CancelRequest> request) async* {
+    yield* cancelTransaction(call, await request);
+  }
+
+  $async.Future<$0.CancelProcessResponse> cancelProcessTransaction_Pre($grpc.ServiceCall call, $async.Future<$0.CancelProcessRequest> request) async {
+    return cancelProcessTransaction(call, await request);
   }
 
   $async.Future<$1.TestConnectionReesponse> testC_Pre($grpc.ServiceCall call, $async.Future<$1.RequestClientInfo> request) async {
@@ -175,6 +194,7 @@ abstract class MetaAppServiceBase extends $grpc.Service {
   $async.Stream<$0.TransactionNotification> startTransaction($grpc.ServiceCall call, $0.StartTransactionRequest request);
   $async.Future<$0.GetStatusResponse> getStatus($grpc.ServiceCall call, $0.GetStatusRequest request);
   $async.Future<$0.GetTransactionResponse> getTransaction($grpc.ServiceCall call, $0.GetTransactionRequest request);
-  $async.Future<$0.CancelResponse> cancelTransaction($grpc.ServiceCall call, $0.CancelRequest request);
+  $async.Stream<$0.CancelNotification> cancelTransaction($grpc.ServiceCall call, $0.CancelRequest request);
+  $async.Future<$0.CancelProcessResponse> cancelProcessTransaction($grpc.ServiceCall call, $0.CancelProcessRequest request);
   $async.Future<$1.TestConnectionReesponse> testC($grpc.ServiceCall call, $1.RequestClientInfo request);
 }

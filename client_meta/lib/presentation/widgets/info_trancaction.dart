@@ -7,7 +7,9 @@ import 'package:server_grpc/server_grpc.dart';
 class InfoTranction {
   static final context = NavService.contextNav;
 
-  static showLisTrac(List<TransactionGRpcModel> transacions) {
+  static showLisTrac(List<TransactionGRpcModel> transacionsList) {
+    final sop = transacionsList.reversed;
+    List<TransactionGRpcModel> transacions = sop.toList();
     showDialog(
         context: context,
         builder: (_) {
@@ -90,8 +92,7 @@ class InfoTranction {
                                           child: ElevatedButton(
                                               onPressed: () async {
                                                 await ConectServices
-                                                    .cancelTransaction(
-                                                        transacion.stan!);
+                                                    .cancelTransactionD(transacion);
                                                 NavService.pop();
                                               },
                                               child: const Text('Cancelar')),
