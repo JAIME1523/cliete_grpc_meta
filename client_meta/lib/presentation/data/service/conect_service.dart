@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 
 import 'dart:math';
 
@@ -359,26 +358,70 @@ class ConectServices {
   }
 
   static Future cancelTransactionD(TransactionGRpcModel transaction) async {
+    final prov = NavService.contextNav.read<HomeProvider>();
     final channel = initChane();
-    final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.stanCounte,
-        stan: transaction.stan);
-    logger.f('esta es ladata que madno$auth');
-    if (cancelTransaction != null) {
-      logger.d('******* se cancela el stream ');
-      cancelTransaction!.cancel();
-    }
-    final metaApp = MetaAppClient(channel, options: CallOptions());
-    cancelTransaction = metaApp.cancelTransaction(CancelRequest(
-      id: transaction.idProtoTransaction,
-      transaction: Transaction.fromJson(transaction.toJsonGrpc()),
-      authData: auth,
-      origin: 'Desde web',
-    ));
-    cancelTransaction!.listen((value)async {
-      logger.f(value);
-    await channel.shutdown();
+    prov.showButton = false;
+    prov.isPrcessTransac = true;
+    try {
+      final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.stanCounte,
+          stan: transaction.stan);
+      logger.f('esta es la data que mando: $auth');
 
-    });
+      if (cancelTransaction != null) {
+        logger.d('******* se cancela el stream ');
+        cancelTransaction!.cancel();
+      }
+      final metaApp = MetaAppClient(channel, options: CallOptions());
+
+      cancelTransaction = metaApp.cancelTransaction(CancelRequest(
+        id: transaction.idProtoTransaction,
+        transaction: Transaction.fromJson(transaction.toJsonGrpc()),
+        authData: auth,
+        origin: 'Desde web',
+      ));
+        cancelTransaction!.listen((event)async {
+          logger.d(event);
+          prov.isPrcessTransac = false;
+          if (!event.hasError()) {
+            final isValid = await AtuhDataSerice.validate(
+                typeAuth: TypeAuth.counterStatus,
+                authData: event.authData,
+                status: event.status);
+            logger.e("ES valido $isValid");
+            if (isValid.isRight()) {
+              CustomSnack.showMessage('Se realizo transa.cción',
+                  backgroundColor: Colors.green);
+              logger.d('Todo fine');
+              NavService.contextNav.read<HomeProvider>().updateElemnt(
+                 id: transaction.idProtoTransaction!,
+                 status: event.status,
+                  stan: transaction.stan);
+              return;
+            } else {
+              await LocalStorage.getSaveCounter();
+              logger.e('No COINCIDE');
+
+              return;
+            }
+          }
+          if (event.hasError()) {
+            CustomSnack.errorSnack(event.error.errorMsg.isNotEmpty
+                ? event.error.errorMsg
+                : 'La operación fallo');
+            logger.d(event);
+          }
+
+
+          await channel.shutdown().catchError((error) {});
+          cancelTransaction!.cancel().catchError((val) {});
+          prov.isPrcessTransac = false;
+          _update(transaction.idProtoTransaction!);
+        });
+
+      } catch (e) {
+        logger.e("ERROR: $e");
+        prov.isPrcessTransac = false;
+      }
 
   }
 
@@ -420,3 +463,4 @@ class ConectServices {
     }
   }
 }
+
