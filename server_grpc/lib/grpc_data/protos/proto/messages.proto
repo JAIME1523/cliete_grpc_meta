@@ -1,0 +1,207 @@
+<<<<<<< HEAD
+syntax = "proto3";
+
+package agnostiko_meta;
+
+import "transactions.proto";
+
+enum MetaErrorCode{
+    InternalError = 0;
+    WrongId = 1;
+    TransactionCompleted = 2;
+    AuthError = 3; 
+    InvalidCounter = 4; 
+    PublicKeyError = 5;
+    WrongRandomCode = 6;
+}
+
+message MetaError{
+    MetaErrorCode code = 1;
+    optional string errorMsg = 2; 
+}
+
+message RegisterClientRequest{
+    string randomCode = 1;
+    string publicKey = 2;
+}
+
+message RegisterClientResponse{
+    string macLabel = 1;
+    bytes macKey = 2; 
+    optional MetaError error = 3; 
+}
+
+message AuthData{
+    int32 counter = 1;
+    string macLabel = 2;
+    bytes mac = 3; 
+}
+
+message RegisterTransactionRequest{
+    Transaction transaction = 1;
+    string origin = 2; 
+    AuthData authData = 3;
+}
+
+message RegisterTransactionResponse{
+    optional string id = 1;
+    optional MetaError error = 2;  
+    AuthData authData = 3;
+}
+
+message StartTransactionRequest{
+    string id = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message TransactionNotification{
+    optional string id = 1;
+    optional Transaction transaction = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}
+
+message GetTransactionRequest{
+    string id = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message GetTransactionResponse{
+    optional string id = 1;
+    optional Transaction transaction = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}
+
+message GetStatusRequest{
+    string id = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message GetStatusResponse{
+    optional string id = 1;
+    optional TransactionStatus status = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}
+
+
+message CancelRequest{
+    string stan = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message CancelResponse{
+    optional string id = 1;
+    optional TransactionStatus status = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}
+=======
+syntax = "proto3";
+
+package agnostiko_meta;
+
+import "transactions.proto";
+
+enum MetaErrorCode{
+    InternalError = 0;
+    WrongId = 1;
+    TransactionCompleted = 2;
+    AuthError = 3; 
+    InvalidCounter = 4; 
+    PublicKeyError = 5;
+    WrongRandomCode = 6;
+}
+
+message MetaError{
+    MetaErrorCode code = 1;
+    optional string errorMsg = 2; 
+}
+
+message RegisterClientRequest{
+    string randomCode = 1;
+    string publicKey = 2;
+}
+
+message RegisterClientResponse{
+    string macLabel = 1;
+    bytes macKey = 2; 
+    optional MetaError error = 3; 
+}
+
+message AuthData{
+    int32 counter = 1;
+    string macLabel = 2;
+    bytes mac = 3; 
+}
+
+message RegisterTransactionRequest{
+    Transaction transaction = 1;
+    string origin = 2; 
+    AuthData authData = 3;
+}
+
+message RegisterTransactionResponse{
+    optional string id = 1;
+    optional MetaError error = 2;  
+    AuthData authData = 3;
+}
+
+message StartTransactionRequest{
+    string id = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message TransactionNotification{
+    optional string id = 1;
+    optional Transaction transaction = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}
+
+message GetTransactionRequest{
+    string id = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message GetTransactionResponse{
+    optional string id = 1;
+    optional Transaction transaction = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}
+
+message GetStatusRequest{
+    string id = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message GetStatusResponse{
+    optional string id = 1;
+    optional TransactionStatus status = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}
+
+
+message CancelRequest{
+    string stan = 1;
+    string origin = 2;
+    AuthData authData = 3;
+}
+
+message CancelResponse{
+    optional string id = 1;
+    optional TransactionStatus status = 2;
+    optional MetaError error = 3;
+    AuthData authData = 4;
+}
+>>>>>>> faf31b6 (agrego rama Alenajo)

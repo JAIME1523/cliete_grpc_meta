@@ -1,0 +1,35 @@
+<<<<<<< HEAD
+syntax = "proto3";
+
+package agnostiko_meta;
+
+import "messages.proto";
+import "test_conect.proto";
+
+service MetaApp {
+  rpc RegisterClient (RegisterClientRequest) returns (RegisterClientResponse) {}
+  rpc RegisterTransaction (RegisterTransactionRequest) returns (RegisterTransactionResponse) {}
+  rpc StartTransaction (StartTransactionRequest) returns (stream TransactionNotification) {}
+  rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}
+  rpc GetTransaction (GetTransactionRequest) returns (GetTransactionResponse) {}
+  rpc CancelTransaction (CancelRequest) returns (CancelResponse) {}
+  rpc TestC(RequestClientInfo) returns (TestConnectionReesponse){}
+}
+=======
+syntax = "proto3";
+
+package agnostiko_meta;
+
+import "messages.proto";
+import "test_conect.proto";
+
+service MetaApp {
+  rpc RegisterClient (RegisterClientRequest) returns (RegisterClientResponse) {}
+  rpc RegisterTransaction (RegisterTransactionRequest) returns (RegisterTransactionResponse) {}
+  rpc StartTransaction (StartTransactionRequest) returns (stream TransactionNotification) {}
+  rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}
+  rpc GetTransaction (GetTransactionRequest) returns (GetTransactionResponse) {}
+  rpc CancelTransaction (CancelRequest) returns (CancelResponse) {}
+  rpc TestC(RequestClientInfo) returns (TestConnectionReesponse){}
+}
+>>>>>>> faf31b6 (agrego rama Alenajo)

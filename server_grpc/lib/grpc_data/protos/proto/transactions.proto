@@ -1,0 +1,55 @@
+<<<<<<< HEAD
+syntax = "proto3";
+
+package agnostiko_meta;
+
+enum TransactionType{
+    Sale = 0;
+}
+
+enum TransactionStatus {
+  Pending = 0;
+  Failed = 1;
+  Cancelled = 2;
+  Denied = 3;
+  Approved = 4;
+}
+
+message Transaction{
+    TransactionStatus status = 1;
+    TransactionType type = 2;
+    int32 amount = 3;
+    optional string referenceNumber = 4;
+    optional string arqc = 5;
+    optional string maskPan = 6;
+    optional string authorizationNumber = 7;
+    optional string stan = 8;
+}
+=======
+syntax = "proto3";
+
+package agnostiko_meta;
+
+enum TransactionType{
+    Sale = 0;
+}
+
+enum TransactionStatus {
+  Pending = 0;
+  Failed = 1;
+  Cancelled = 2;
+  Denied = 3;
+  Approved = 4;
+}
+
+message Transaction{
+    TransactionStatus status = 1;
+    TransactionType type = 2;
+    int32 amount = 3;
+    optional string referenceNumber = 4;
+    optional string arqc = 5;
+    optional string maskPan = 6;
+    optional string authorizationNumber = 7;
+    optional string stan = 8;
+}
+>>>>>>> faf31b6 (agrego rama Alenajo)
