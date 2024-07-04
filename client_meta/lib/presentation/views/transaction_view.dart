@@ -136,3 +136,4 @@ class TransactionView extends StatelessWidget {
     return idTr.text;
   }
 }
+>>>>>>> eb0af3b (agrego rama Alenajo)
