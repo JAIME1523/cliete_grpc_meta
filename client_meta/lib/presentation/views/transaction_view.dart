@@ -4,6 +4,7 @@ import 'package:client_meta/presentation/widgets/info_trancaction.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../data/model/response_model.dart';
 import '../data/service/conect_service.dart';
 
 class TransactionView extends StatelessWidget {
@@ -46,6 +47,12 @@ class TransactionView extends StatelessWidget {
                       : 'Algo fallo :(');
             },
             child: const Text('Emparejar')), */
+        ElevatedButton(
+            onPressed: () async {
+              provider.fastalertInsert();
+            },
+            child: const Text('Fast Transaction')),
+        const SizedBox(height: 25),
         ElevatedButton(
             onPressed: () async {
               provider.alertInsert();
@@ -135,5 +142,5 @@ class TransactionView extends StatelessWidget {
         });
     return idTr.text;
   }
+
 }
->>>>>>> eb0af3b (agrego rama Alenajo)

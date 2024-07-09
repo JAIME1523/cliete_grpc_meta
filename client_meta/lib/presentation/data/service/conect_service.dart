@@ -100,6 +100,65 @@ class ConectServices {
     }
   }
 
+  static Future<Map<String,dynamic>> insertFastTransaction(int amount) async {
+    final channel = initChane();
+
+    try {
+      final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.counterAmount,
+          amount: '$amount');
+      logger.f('esta es ladata que madno$auth');
+      final metaApp = MetaAppClient(channel);
+      final transac = Transaction(
+        amount: amount,
+        status: TransactionStatus.Pending,
+        type: TransactionType.Sale,
+      );
+      final response = await metaApp.registerTransaction(
+          RegisterTransactionRequest(
+              authData: auth, origin: 'Desde web', transaction: transac));
+      await channel.terminate();
+
+      logger.w(response.error.errorMsg.isEmpty);
+      logger.e(response.error.errorMsg.isEmpty);
+      if (response.error.errorMsg.isEmpty) {
+        logger.d('La repsuesta no tine error');
+
+        final isValid = await AtuhDataSerice.validate(
+          typeAuth: TypeAuth.counter,
+          authData: response.authData,
+        );
+
+        print(isValid);
+        if (isValid.isRight()) {
+          logger.d('Todo fine');
+          CustomSnack.showMessage(
+              'Se registro la transaccion con ID: ${response.id}',
+              milliseconds: 4000);
+
+          final tran =
+          TransactionGRpcModel.fromMapByGrpc(transac.writeToJsonMap())
+              .copyWith(idProtoTransaction: response.id);
+          return {"ResponseModel":ResponseModel(status: true, info: 'Fine', transcion: tran),"id":response.id};
+
+          //return;
+        } else {
+          await LocalStorage.getSaveCounter();
+          CustomSnack.errorSnack('No se puede autenticar');
+          logger.e('No COINCIDE');
+
+          return {"ResponseModel":ResponseModel(status: false, info: 'No se puede autenticar')};
+        }
+      }
+      logger.d(response);
+
+      return {"ResponseModel":ResponseModel(status: false, info: response.error.errorMsg)};
+    } catch (e) {
+      await channel.shutdown();
+
+      return {"ResponseModel":ResponseModel(status: false, info: 'Error en esta app')};
+    }
+  }
+
   static Future<ResponseModel> getTransaction(String id) async {
     final channel = initChane();
     final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.counter);
