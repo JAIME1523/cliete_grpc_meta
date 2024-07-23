@@ -3,8 +3,6 @@ import 'package:client_meta/presentation/widgets/custom_snack.dart';
 import 'package:client_meta/presentation/widgets/info_trancaction.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../data/model/response_model.dart';
 import '../data/service/conect_service.dart';
 
 class TransactionView extends StatelessWidget {
@@ -18,35 +16,6 @@ class TransactionView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        /*   ElevatedButton(
-            onPressed: () async {
-              print(
-                  'Este es el counter ${LocalStorage.getInt(PreferencesInt.counter)}');
-            },
-            child: Text('Imprimer counter')),
-        ElevatedButton(
-            onPressed: () async {
-              await LocalStorage.setInt(PreferencesInt.counter, 1);
-              print(
-                  'Este es el counter ${LocalStorage.getInt(PreferencesInt.counter)}');
-            },
-            child: Text('Limpiar counter')),
-        ElevatedButton(
-            onPressed: () async {
-              await ConectServices.generatePairKey();
-            },
-            child: const Text('Gnerar llaves encr')),
-        ElevatedButton(
-            onPressed: () async {
-              final resp = await ConectServices.matchmaking(context);
-              // ignore: use_build_context_synchronously
-              showMessage(
-                  context,
-                  resp
-                      ? 'Se vincularon dispositivos y se guardo la macKey'
-                      : 'Algo fallo :(');
-            },
-            child: const Text('Emparejar')), */
         ElevatedButton(
             onPressed: () async {
               provider.fastalertInsert();
@@ -82,12 +51,6 @@ class TransactionView extends StatelessWidget {
             },
             child: const Text('Estatus de transacción')),
         const SizedBox(height: 25),
-     /*    ElevatedButton(
-          onPressed: () async {
-            await ConectServices.testC();
-          },
-          child: const Text('TESS'),
-        ), */
         ElevatedButton(
           onPressed: () async {
             final resp = await showIdModal(context);
@@ -104,10 +67,6 @@ class TransactionView extends StatelessWidget {
             },
             child: const Text('transacciones registradas'),
           )
-
-
-
-  
       ],
     );
   }

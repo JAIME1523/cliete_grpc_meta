@@ -23,11 +23,7 @@ class AtuhDataSerice {
   static Future<AuthData> generateNewAuth(TypeAuth typeAuth,{String? amount,TransactionStatus? status,String? stan}) async {
 
     final myCouter = await LocalStorage.getSaveCounter();
-    logger.f('este es el couter $myCouter');
     final payload =  await _generatePaylod(typeAuth, counter: '$myCouter', amount: amount, status: status, stan: stan);
-    print('******************************');
-
-    print(payload);
     final auth = AuthData(counter:myCouter, mac:payload, macLabel:  '${status??amount??stan??''}$myCouter' );
     return auth;
   }

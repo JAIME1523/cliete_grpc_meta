@@ -24,8 +24,6 @@ class LocalStorage {
    static Future<int> getSaveCounter() async {
     int stan = prefs!.getInt(PreferencesInt.counter.value) ?? 0;
     await prefs!.setInt(PreferencesInt.counter.value, stan + 1);
-    print(' ********este el conunter se guarda El counter ${stan+1}');
-
     return stan;
   } 
     static int getPort()  {

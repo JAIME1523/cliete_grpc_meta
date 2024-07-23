@@ -80,10 +80,10 @@ class InfoTranction {
                                       if (transacion.idProtoTransaction != null)
                                         ElevatedButton(
                                             onPressed: () async {
+                                              NavService.pop();
                                               await ConectServices
                                                   .startTransaccion(transacion
                                                       .idProtoTransaction!);
-                                              NavService.pop();
                                             },
                                             child: const Text('Inicar cobro')),
                                       if (transacion.stan != null && transacion.status!.value == 4)
@@ -91,9 +91,9 @@ class InfoTranction {
                                           padding: const EdgeInsets.symmetric(vertical: 10),
                                           child: ElevatedButton(
                                               onPressed: () async {
+                                                NavService.pop();
                                                 await ConectServices
                                                     .cancelTransactionD(transacion);
-                                                NavService.pop();
                                               },
                                               child: const Text('Cancelar')),
                                         )

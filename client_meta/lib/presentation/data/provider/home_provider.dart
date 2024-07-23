@@ -191,7 +191,6 @@ class HomeProvider extends ChangeNotifier {
     isLoading = true;
 
     final resp = await ConectServices.insertFastTransaction(newmont);
-    print(resp);
     if (resp["ResponseModel"].transcion != null) {
       transacintionSave.add(resp["ResponseModel"].transcion!);
     }
@@ -227,15 +226,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
 
-cancelProces()async{
-      final resp   =    await ConectServices.cancelProceesTransaction();
-    /*   if(!resp.status){
-        CustomSnack.errorSnack(resp.info);
-        return;
-      } */
-      
+cancelProces()async => await ConectServices.cancelProceesTransaction();
 
-}
 
   bool get isMatch => _isMatch;
   set isMatch(bool value) {
