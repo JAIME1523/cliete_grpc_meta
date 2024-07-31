@@ -93,7 +93,53 @@ class HomeProvider extends ChangeNotifier {
           );
         });
   }
- validateInput(){
+
+  fastalertInsert() {
+    _activeButon = false;
+    final TextEditingController monto = TextEditingController();
+    final context = NavService.contextNav;
+    showDialog(
+        context: context,
+        builder: (_) {
+          final provider = context.watch<HomeProvider>();
+          final size = MediaQuery.sizeOf(context);
+          return AlertDialog(
+            content: SizedBox(
+              height: size.height * 0.3,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Text('Ingresa monto'),
+                    CustomInputField(
+                      onChange: (va){
+                        validateInput();
+                      },
+                      validator: (value) {
+                        return UtilsAmont.validtesAmont(value ?? '');
+                      },
+                      onSubmitted: (va) {
+                        sendfastInert(monto.text);
+                      },
+                      controller: monto,
+                      keyboardType: TextInputType.number,
+                    ),
+                    ElevatedButton(
+                        onPressed: provider._activeButon ? () async {
+                          sendfastInert(monto.text);
+                        }:null,
+                        child: const Text('Guardar'))
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+
+  validateInput(){
   _activeButon = _formKey.currentState!.validate();
   notifyListeners();
  }
@@ -124,6 +170,40 @@ class HomeProvider extends ChangeNotifier {
     isLoading = false;
   }
 
+  sendfastInert(String amontR) async {
+    final amontArray = amontR.split('.');
+    if (amontArray.length <= 1) {
+      amontArray.add('00');
+    }
+
+    amontArray[1] = amontArray[1].padRight(2, '0');
+    //amontArray[1].padRight(2, '0');
+    final amont = amontArray.join();
+    NavService.pop();
+    if (amont.isEmpty || amont == '0' || amont == '0.00' || amont == '0.0') {
+      return;
+    }
+    final int newmont = int.tryParse(amont) ?? 0;
+    if (newmont == 0) {
+      CustomSnack.errorSnack('Valor invalido');
+      return;
+    }
+    isLoading = true;
+
+    final resp = await ConectServices.insertFastTransaction(newmont);
+    if (resp["ResponseModel"].transcion != null) {
+      transacintionSave.add(resp["ResponseModel"].transcion!);
+    }
+    if(resp["id"]!=null) {
+
+      await ConectServices.startTransaccion(
+          resp["id"]);
+    }
+    isLoading = false;
+    return resp;
+  }
+
+
   cleanFrom() {
     ipgController.clear();
     porgController.clear();
@@ -146,15 +226,8 @@ class HomeProvider extends ChangeNotifier {
   }
 
 
-cancelProces()async{
-      final resp   =    await ConectServices.cancelProceesTransaction();
-    /*   if(!resp.status){
-        CustomSnack.errorSnack(resp.info);
-        return;
-      } */
-      
+cancelProces()async => await ConectServices.cancelProceesTransaction();
 
-}
 
   bool get isMatch => _isMatch;
   set isMatch(bool value) {

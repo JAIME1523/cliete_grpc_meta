@@ -13,7 +13,6 @@ class UtilsAmont {
 
 static  String? validtesAmont(String name) {
   final resp = domainExp.hasMatch(name) ? null : 'Ingrese un dato valido';
-  print('$name = $resp');
   return resp;
   }
 }
