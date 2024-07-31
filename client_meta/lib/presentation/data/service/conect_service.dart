@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 
 import 'dart:math';
 
@@ -19,13 +18,6 @@ import '../../../logger/logger_printer.dart';
 import 'encrypt/rsa_service.dart';
 
 class ConectServices {
-  static ResponseStream<TransactionNotification>? metaSrteam;
-  static ResponseStream<CancelNotification>? cancelTransaction;
-
-/*   static String ipConfig = LocalStorage.getIpAdrres(); 
-  static int puerto = LocalStorage.getPort(); 
- */
-
   static final logger = getLogger();
   static ClientChannel initChane() {
     ClientChannel channel = ClientChannel(
@@ -41,7 +33,6 @@ class ConectServices {
 
   static Future<ResponseModel> insertTransaction(int amount) async {
     final channel = initChane();
-
     try {
       final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.counterAmount,
           amount: '$amount');
@@ -66,8 +57,6 @@ class ConectServices {
           typeAuth: TypeAuth.counter,
           authData: response.authData,
         );
-
-        print(isValid);
         if (isValid.isRight()) {
           logger.d('Todo fine');
           CustomSnack.showMessage(
@@ -101,6 +90,63 @@ class ConectServices {
     }
   }
 
+  static Future<Map<String,dynamic>> insertFastTransaction(int amount) async {
+    final channel = initChane();
+
+    try {
+      final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.counterAmount,
+          amount: '$amount');
+      logger.f('esta es ladata que madno$auth');
+      final metaApp = MetaAppClient(channel);
+      final transac = Transaction(
+        amount: amount,
+        status: TransactionStatus.Pending,
+        type: TransactionType.Sale,
+      );
+      final response = await metaApp.registerTransaction(
+          RegisterTransactionRequest(
+              authData: auth, origin: 'Desde web', transaction: transac));
+      await channel.terminate();
+
+      logger.w(response.error.errorMsg.isEmpty);
+      logger.e(response.error.errorMsg.isEmpty);
+      if (response.error.errorMsg.isEmpty) {
+        logger.d('La repsuesta no tine error');
+
+        final isValid = await AtuhDataSerice.validate(
+          typeAuth: TypeAuth.counter,
+          authData: response.authData,
+        );
+        if (isValid.isRight()) {
+          logger.d('Todo fine');
+          CustomSnack.showMessage(
+              'Se registro la transaccion con ID: ${response.id}',
+              milliseconds: 4000);
+
+          final tran =
+          TransactionGRpcModel.fromMapByGrpc(transac.writeToJsonMap())
+              .copyWith(idProtoTransaction: response.id);
+          return {"ResponseModel":ResponseModel(status: true, info: 'Fine', transcion: tran),"id":response.id};
+
+          //return;
+        } else {
+          await LocalStorage.getSaveCounter();
+          CustomSnack.errorSnack('No se puede autenticar');
+          logger.e('No COINCIDE');
+
+          return {"ResponseModel":ResponseModel(status: false, info: 'No se puede autenticar')};
+        }
+      }
+      logger.d(response);
+
+      return {"ResponseModel":ResponseModel(status: false, info: response.error.errorMsg)};
+    } catch (e) {
+      await channel.shutdown();
+
+      return {"ResponseModel":ResponseModel(status: false, info: 'Error en esta app')};
+    }
+  }
+
   static Future<ResponseModel> getTransaction(String id) async {
     final channel = initChane();
     final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.counter);
@@ -122,8 +168,6 @@ class ConectServices {
             typeAuth: TypeAuth.counterStatus,
             authData: response.authData,
             status: response.transaction.status);
-
-        print(isValid);
         if (isValid.isRight()) {
           logger.d('Todo fine');
           final tran = TransactionGRpcModel.fromMapByGrpc(
@@ -167,7 +211,6 @@ class ConectServices {
             authData: response.authData,
             status: response.status);
 
-        print(isValid);
         if (isValid.isRight()) {
           logger.d('Todo fine');
 
@@ -187,14 +230,12 @@ class ConectServices {
       logger.f(response.writeToJson());
     } catch (e) {
       logger.e(e);
-
       await channel.shutdown();
     }
   }
 
   static Future testC() async {
     final channel = initChane();
-
     try {
       final metaApp = MetaAppClient(channel);
       final response =
@@ -213,10 +254,6 @@ class ConectServices {
   static Future startTransaccion(String id) async {
     final prov = NavService.contextNav.read<HomeProvider>();
     final channel = initChane();
-    logger.d(metaSrteam);
-    if (metaSrteam != null) {
-      logger.d('******* se cancela el stream ');
-    }
     bool isCancel = true;
     prov.showButton = false;
     prov.isPrcessTransac = true;
@@ -227,21 +264,19 @@ class ConectServices {
       final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.counter);
       logger.f('esta es ladata que madno$auth');
       final metaApp = MetaAppClient(channel);
-      metaSrteam = metaApp.startTransaction(StartTransactionRequest(
+      final event  = await metaApp.startTransaction(StartTransactionRequest(
         id: id,
         authData: auth,
         origin: 'Desde web',
       ));
+        prov.isPrcessTransac = false;
       Future.delayed(const Duration(seconds: 90)).then((value) async {
         if (isCancel) {
           prov.isPrcessTransac = false;
-
           CustomSnack.errorSnack('Tiempo de espera excedido ');
           await channel.shutdown().catchError((error) {});
-          metaSrteam!.cancel().catchError((val) {});
         }
       });
-      metaSrteam!.asBroadcastStream().listen((event) async {
         isCancel = false;
         logger.f(event);
         prov.isPrcessTransac = false;
@@ -250,12 +285,11 @@ class ConectServices {
               typeAuth: TypeAuth.counterStatus,
               authData: event.authData,
               status: event.transaction.status);
-          print(isValid);
           if (isValid.isRight()) {
             CustomSnack.showMessage('Se realizo transa.cción',
                 backgroundColor: Colors.green);
             logger.d('Todo fine');
-            NavService.contextNav.read<HomeProvider>().updateElemnt(
+           prov.updateElemnt(
                 id: id,
                 status: event.transaction.status,
                 stan: event.transaction.stan);
@@ -276,20 +310,19 @@ class ConectServices {
 
         try {
           await channel.shutdown().catchError((error) {});
-          metaSrteam!.cancel().catchError((val) {});
           prov.isPrcessTransac = false;
         } catch (e) {
           logger.d(e);
           prov.isPrcessTransac = false;
         }
         _update(id);
-      });
+      
     } catch (e) {
       isCancel = false;
       prov.isPrcessTransac = false;
 
       await channel.shutdown();
-      await metaSrteam!.cancel();
+  
     }
   }
 
@@ -352,33 +385,69 @@ class ConectServices {
   static _update(String id) async {
     final resul = await ConectServices.getTransaction(id);
     if (resul.transcion != null) {
-      NavService.contextNav
-          .read<HomeProvider>()
-          .updateElemnt(id: id, status: resul.transcion!.status!);
+      NavService.contextNav.read<HomeProvider>().updateElemnt(id: id, status: resul.transcion!.status!);
     }
   }
 
   static Future cancelTransactionD(TransactionGRpcModel transaction) async {
+    final prov = NavService.contextNav.read<HomeProvider>();
     final channel = initChane();
-    final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.stanCounte,
-        stan: transaction.stan);
-    logger.f('esta es ladata que madno$auth');
-    if (cancelTransaction != null) {
-      logger.d('******* se cancela el stream ');
-      cancelTransaction!.cancel();
-    }
-    final metaApp = MetaAppClient(channel, options: CallOptions());
-    cancelTransaction = metaApp.cancelTransaction(CancelRequest(
-      id: transaction.idProtoTransaction,
-      transaction: Transaction.fromJson(transaction.toJsonGrpc()),
-      authData: auth,
-      origin: 'Desde web',
-    ));
-    cancelTransaction!.listen((value)async {
-      logger.f(value);
-    await channel.shutdown();
+    prov.showButton = false;
+    prov.isPrcessTransac = true;
+    try {
+      final auth = await AtuhDataSerice.generateNewAuth(TypeAuth.stanCounte,
+          stan: transaction.stan);
+      logger.f('esta es la data que mando: $auth');
+      final metaApp = MetaAppClient(channel, options: CallOptions());
 
-    });
+     final  event = await metaApp.cancelTransaction(CancelRequest(
+        id: transaction.idProtoTransaction,
+        transaction: Transaction.fromJson(transaction.toJsonGrpc()),
+        authData: auth,
+        origin: 'Desde web',
+      ));
+       
+          logger.d(event);
+          prov.isPrcessTransac = false;
+          if (!event.hasError()) {
+            final isValid = await AtuhDataSerice.validate(
+                typeAuth: TypeAuth.counterStatus,
+                authData: event.authData,
+                status: event.status);
+            logger.e("ES valido $isValid");
+            if (isValid.isRight()) {
+              CustomSnack.showMessage('Se realizo transa.cción',
+                  backgroundColor: Colors.green);
+              logger.d('Todo fine');
+              NavService.contextNav.read<HomeProvider>().updateElemnt(
+                 id: transaction.idProtoTransaction!,
+                 status: event.status,
+                  stan: transaction.stan);
+              return;
+            } else {
+              await LocalStorage.getSaveCounter();
+              logger.e('No COINCIDE');
+
+              return;
+            }
+          }
+          if (event.hasError()) {
+            CustomSnack.errorSnack(event.error.errorMsg.isNotEmpty
+                ? event.error.errorMsg
+                : 'La operación fallo');
+            logger.d(event);
+          }
+
+
+          await channel.shutdown().catchError((error) {});
+          prov.isPrcessTransac = false;
+          _update(transaction.idProtoTransaction!);
+     
+
+      } catch (e) {
+        logger.e("ERROR: $e");
+        prov.isPrcessTransac = false;
+      }
 
   }
 
@@ -392,25 +461,6 @@ class ConectServices {
           CancelProcessRequest(authData: auth, origin: 'Desde web'));
       await channel.shutdown();
 
-      /* if (response.error.errorMsg.isEmpty) {
-        logger.d('La repsuesta no tine error');
-
-        final isValid = await AtuhDataSerice.validate(
-            typeAuth: TypeAuth.boolCounter,
-            authData: response.authData,
-            statusBool: response.successes);
-
-        if (isValid.isRight()) {
-          logger.d('Todo fine');
-
-          return ResponseModel(status: true, info: 'Se encontro');
-        } else {
-          await LocalStorage.getSaveCounter();
-          logger.e('No COINCIDE');
-          return ResponseModel(
-              status: false, info: 'Error al validar informacion');
-        }
-      } */
       logger.w(response);
 
       return ResponseModel(status: false, info: response.error.errorMsg);
@@ -420,3 +470,4 @@ class ConectServices {
     }
   }
 }
+

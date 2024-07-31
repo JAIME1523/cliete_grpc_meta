@@ -15,7 +15,7 @@ class MatchView extends StatelessWidget {
      final provider = context.read<HomeProvider>();
 
     final size = MediaQuery.sizeOf(context);
-    return Container(
+    return SizedBox(
       height: size.height * 0.8,
       child: Center(
         child: Column(
